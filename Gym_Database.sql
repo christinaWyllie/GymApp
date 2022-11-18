@@ -176,6 +176,13 @@ time_slots varchar(20) NOT NULL,
 PRIMARY KEY (r_user_id),
 FOREIGN KEY (m_id) REFERENCES MANAGER(m_id));
 
+DROP TABLE IF EXISTS ROOMS;
+CREATE TABLE ROOMS (
+room_id INT NOT NULL,
+date DATE,
+duration INT,
+PRIMARY KEY(room_id) );
+
 
 
 DROP TABLE IF EXISTS T_BOOKS_R;
@@ -183,13 +190,24 @@ CREATE TABLE T_BOOKS_R (
 r_email varchar(25) NOT NULL,
 r_id char(10) NOT NULL,
 rssn char(9) NOT NULL,
-room_id char(9) NOT NULL,
+room_id INT NOT NULL,
 PRIMARY KEY (r_id),
-FOREIGN KEY (r_email) REFERENCES TRAINER(r_email),
-FOREIGN KEY (r_id) REFERENCES TRAINER(r_id),
-FOREIGN KEY (rssn) REFERENCES TRAINER (rssn),
+FOREIGN KEY (r_email) REFERENCES TRAINER(t_email),
+FOREIGN KEY (r_id) REFERENCES TRAINER(t_user_id),
+FOREIGN KEY (rssn) REFERENCES TRAINER (tssn),
 FOREIGN KEY (room_id) REFERENCES ROOMS(room_id) );
 
+DROP TABLE IF EXISTS GYM;
+CREATE TABLE GYM(
+branch_no INT NOT NULL,
+location VARCHAR(30) NOT NULL,
+ossn CHAR(9) NOT NULL,
+owner_email varchar(25) NOT NULL,
+owner_id char(10) NOT NULL,
+PRIMARY KEY (branch_no),
+FOREIGN KEY (ossn) REFERENCES OWNER(ossn),
+FOREIGN KEY (owner_email) REFERENCES OWNER(owner_email),
+FOREIGN KEY (owner_id) REFERENCES OWNER(owner_id) );
 
 DROP TABLE IF EXISTS EQUIPMENT;
 CREATE TABLE EQUIPMENT (
@@ -216,18 +234,6 @@ branch_no INT NOT NULL,
 PRIMARY KEY(supply_no),
 FOREIGN KEY(branch_no) REFERENCES GYM(branch_no) );
 
-DROP TABLE IF EXISTS GYM;
-CREATE TABLE GYM(
-branch_no INT NOT NULL,
-location VARCHAR(30) NOT NULL,
-ossn CHAR(9) NOT NULL,
-owner_email varchar(25) NOT NULL,
-owner_id char(10) NOT NULL,
-PRIMARY KEY (branch_no),
-FOREIGN KEY (ossn) REFERENCES OWNER(ossn),
-FOREIGN KEY (owner_email) REFERENCES OWNER(owner_email),
-FOREIGN_KEY (owner_id) REFERENCES OWNER(owner_id) );
-
 DROP TABLE IF EXISTS SUBSCRIPTION;
 CREATE TABLE SUBSCRIPTION(
 login_id VARCHAR(30) NOT NULL,
@@ -245,3 +251,4 @@ FOREIGN KEY(login_id) REFERENCES SUBSCRIPTION(login_id));
 
 SELECT *
 FROM PERSON;
+

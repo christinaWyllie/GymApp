@@ -11,7 +11,8 @@ lname VARCHAR(15) NOT NULL,
 address VARCHAR(30),
 phone_number INT NOT NULL,
 email VARCHAR(25) NOT NULL,
-primary key (ssn) 
+primary key (ssn), 
+UNIQUE (email)
 );
 
 DROP TABLE IF EXISTS ADMIN;
@@ -43,6 +44,17 @@ FOREIGN KEY (ossn) REFERENCES ADMIN(assn),
 FOREIGN KEY (owner_email) REFERENCES ADMIN(admin_email) 
 );
 
+DROP TABLE IF EXISTS MANAGER;
+CREATE TABLE MANAGER (
+mssn CHAR(9) NOT NULL,
+m_id CHAR(10) NOT NULL,
+m_email VARCHAR(25) NOT NULL,
+branch_no INT NOT NULL,
+PRIMARY KEY (m_id),
+FOREIGN KEY (mssn) REFERENCES ADMIN(assn),
+FOREIGN KEY (m_email) REFERENCES ADMIN(admin_email) 
+);
+
 DROP TABLE IF EXISTS CLIENT;
 CREATE TABLE CLIENT (
 cssn CHAR(9) NOT NULL,
@@ -71,8 +83,8 @@ address VARCHAR(30),
 phone_number INT NOT NULL,
 PRIMARY KEY (membership_id),
 FOREIGN KEY (mssn) REFERENCES CLIENT(cssn),
-FOREIGN KEY (client_id) REFERENCES CLIENT(client_id)
-FOREIGN KEY (member_email) REFERENCES CLIENT(email) 
+FOREIGN KEY (client_id) REFERENCES CLIENT(client_id),
+FOREIGN KEY (member_email) REFERENCES CLIENT(client_email) 
 );
 
 DROP TABLE IF EXISTS RESTRICTED_USER;
@@ -99,7 +111,7 @@ lname VARCHAR(15) NOT NULL,
 address VARCHAR(30),
 phone_number INT NOT NULL,
 branch_no int NOT NULL,
-PRIMARY KEY (r_user_id),
+PRIMARY KEY (e_user_id),
 FOREIGN KEY (e_user_id) REFERENCES RESTRICTED_USER(r_user_id),
 FOREIGN KEY (essn) REFERENCES RESTRICTED_USER(rssn),
 FOREIGN KEY (e_email) REFERENCES RESTRICTED_USER(r_email) 
@@ -130,28 +142,10 @@ lname VARCHAR(15) NOT NULL,
 address VARCHAR(30),
 phone_number INT NOT NULL,
 branch_no int NOT NULL,
-PRIMARY KEY (s_user_id),
-FOREIGN KEY (s_user_id) REFERENCES EMPLOYEE(e_user_id),
-FOREIGN KEY (sssn) REFERENCES EMPLOYEE(essn),
-FOREIGN KEY (s_email) REFERENCES EMPLOYEE(e_email) );
-
-DROP TABLE IF EXISTS TRAINER_CLASS;
-CREATE TABLE TRAINER_CLASS(
-t_user_id char(10) NOT NULL,
-class_no int NOT NULL,
-PRIMARY KEY (t_user_id)
-FOREIGN KEY (t_user_id) REFERENCES TRAINER(t_user_id),
-FOREIGN KEY (class_no) REFERENCES CLASS(class_no) );
-
-DROP TABLE IF EXISTS WEEKLY_SCHEDULE;
-CREATE TABLE WEEKLY_SCHEDULE(
-m_id char(10) NOT NULL,
-r_user_id char(10) NOT NULL,
-branch_no int NOT NULL,
-time_slots varchar(20) NOT NULL,
-PRIMARY KEY (r_user_id),
-FOREIGN KEY (rssn) REFERENCES RESTRICTED_USER(rssn),
-FOREIGN KEY (r_email) REFERENCES RESTRICTED_USER(r_email) );
+PRIMARY KEY (t_user_id),
+FOREIGN KEY (t_user_id) REFERENCES EMPLOYEE(e_user_id),
+FOREIGN KEY (tssn) REFERENCES EMPLOYEE(essn),
+FOREIGN KEY (t_email) REFERENCES EMPLOYEE(e_email) );
 
 DROP TABLE IF EXISTS CLASS;
 CREATE TABLE CLASS (
@@ -164,6 +158,25 @@ t_email VARCHAR(25)NOT NULL,
 tssn INT NOT NULL,
 PRIMARY KEY(class_no),
 FOREIGN KEY(t_id) REFERENCES TRAINER(t_user_id) );
+
+DROP TABLE IF EXISTS TRAINER_CLASS;
+CREATE TABLE TRAINER_CLASS(
+t_user_id char(10) NOT NULL,
+class_no int NOT NULL,
+PRIMARY KEY (t_user_id),
+FOREIGN KEY (t_user_id) REFERENCES TRAINER(t_user_id),
+FOREIGN KEY (class_no) REFERENCES CLASS(class_no) );
+
+DROP TABLE IF EXISTS WEEKLY_SCHEDULE;
+CREATE TABLE WEEKLY_SCHEDULE(
+m_id char(10) NOT NULL,
+r_user_id char(10) NOT NULL,
+branch_no int NOT NULL,
+time_slots varchar(20) NOT NULL,
+PRIMARY KEY (r_user_id),
+FOREIGN KEY (m_id) REFERENCES MANAGER(m_id));
+
+
 
 DROP TABLE IF EXISTS T_BOOKS_R;
 CREATE TABLE T_BOOKS_R (
@@ -210,7 +223,7 @@ location VARCHAR(30) NOT NULL,
 ossn CHAR(9) NOT NULL,
 owner_email varchar(25) NOT NULL,
 owner_id char(10) NOT NULL,
-PRIMARY KEY (branch_no)
+PRIMARY KEY (branch_no),
 FOREIGN KEY (ossn) REFERENCES OWNER(ossn),
 FOREIGN KEY (owner_email) REFERENCES OWNER(owner_email),
 FOREIGN_KEY (owner_id) REFERENCES OWNER(owner_id) );
@@ -227,5 +240,8 @@ CREATE TABLE SUB_BRANCHES(
 login_id VARCHAR(30) NOT NULL, 
 branch_no INT NOT NULL, 
 PRIMARY KEY(login_id, branch_no), 
-FOREIGN KEY(branch_no) REFERENCES GYM(branch_no)
+FOREIGN KEY(branch_no) REFERENCES GYM(branch_no),
 FOREIGN KEY(login_id) REFERENCES SUBSCRIPTION(login_id));
+
+SELECT *
+FROM PERSON;

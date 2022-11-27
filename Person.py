@@ -9,11 +9,11 @@ class Person:
         self.address = address
         self.phone = phone
         self.email = email
+        #create person inside the database
         createPerson(ssn, f, l, address, phone, email)
         
     def removePerson(self, ssn):
-        #do something with databse
-        return self.ssn
+        deletePerson(ssn)
         
     def getName(self):
         fullName = self.fname + self.lname
@@ -30,15 +30,20 @@ class Person:
     
     def changeName(self,last):
         self.lname = last
-        #need to update database
+        #update database with new last name
+        updatePersonName(self.ssn, last)
         
     def changePhone(self, phone):
         self.phone = phone
-        #update database
+        #update database with new phone
+        updatePersonPhone(self.ssn, phone)
         
     def changeEmail(self, email):
         self.email = email
-        #update database
+        #update database with new email
+        updatePersonEmail(self.ssn, email)
         
     def changeAddress(self, address):
         self.address = address
+        #update person's address
+        updatePersonAddress(self.ssn, address)

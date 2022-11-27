@@ -1,3 +1,5 @@
+from connection import *
+
 class Person:
     
     def __init__(self, ssn, f, l, address, phone, email):
@@ -7,6 +9,7 @@ class Person:
         self.address = address
         self.phone = phone
         self.email = email
+        createPerson(ssn, f, l, address, phone, email)
         
     def removePerson(self, ssn):
         #do something with databse
@@ -36,3 +39,6 @@ class Person:
     def changeEmail(self, email):
         self.email = email
         #update database
+        
+    def changeAddress(self, address):
+        self.address = address

@@ -15,7 +15,20 @@ class Homepage(Screen):
 
 
 class RegForm(Screen):
+    fname = ObjectProperty(None)
+    lname = ObjectProperty(None)
+    email = ObjectProperty(None)
+    addr = ObjectProperty(None)
+    phone = ObjectProperty(None)
+    ssn = ObjectProperty(None)
     pass
+
+    def submit(self):
+        print("Name: ", self.fname.text, self.lname.text)
+        print("Email: ", self.email.text)
+        print("Address: ", self.addr.text)
+        print("Phone Number: ", self.phone.text)
+        print("SSN: ", self.ssn.text)
 
 
 class LoginForm(Screen):

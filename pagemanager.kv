@@ -55,6 +55,13 @@ PageManager:
 <RegForm>:
     name: "registration"
 
+    fname: fname
+    lname: lname
+    email: email
+    addr: addr
+    phone: phone
+    ssn: ssn
+
     FloatLayout:
         Label:
             text: "Account Registration"
@@ -69,7 +76,7 @@ PageManager:
             pos_hint: {"x":0.1,"top":0.9}
             size_hint: 0.35, 0.15
         TextInput:
-            id: "fname"
+            id: fname
             font_size: (root.width**2 + root.height**2) / 14**4
             pos_hint: {"x": 0.45, "top":0.8725}
             size_hint: 0.35,0.08
@@ -81,7 +88,7 @@ PageManager:
             pos_hint: {"x":0.1,"top":0.8}
             size_hint: 0.35, 0.15
         TextInput:
-            id: "lname"
+            id: lname
             font_size: (root.width**2 + root.height**2) / 14**4
             pos_hint: {"x": 0.45, "top":0.7725}
             size_hint: 0.35,0.08
@@ -93,7 +100,7 @@ PageManager:
             pos_hint: {"x":0.1,"top":0.7}
             size_hint: 0.35, 0.15
         TextInput:
-            id: "email"
+            id: email
             font_size: (root.width**2 + root.height**2) / 14**4
             pos_hint: {"x": 0.45, "top":0.6725}
             size_hint: 0.35,0.08
@@ -105,7 +112,7 @@ PageManager:
             pos_hint: {"x":0.1,"top":0.6}
             size_hint: 0.35, 0.15
         TextInput:
-            id: "addr"
+            id: addr
             font_size: (root.width**2 + root.height**2) / 14**4
             pos_hint: {"x": 0.45, "top":0.5725}
             size_hint: 0.35,0.08
@@ -117,7 +124,7 @@ PageManager:
             pos_hint: {"x":0.1,"top":0.5}
             size_hint: 0.35, 0.15
         TextInput:
-            id: "addr"
+            id: phone
             font_size: (root.width**2 + root.height**2) / 14**4
             pos_hint: {"x": 0.45, "top":0.4725}
             size_hint: 0.35,0.08
@@ -132,7 +139,7 @@ PageManager:
             pos_hint: {"x":0.1,"top":0.4}
             size_hint: 0.35, 0.15
         TextInput:
-            id: "ssn"
+            id: ssn
             font_size: (root.width**2 + root.height**2) / 14**4
             pos_hint: {"x": 0.45, "top":0.3725}
             size_hint: 0.35,0.08
@@ -159,3 +166,4 @@ PageManager:
             on_release: 
                 app.root.current = "login"
                 root.manager.transition.direction = "right"
+                root.submit()

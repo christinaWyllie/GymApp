@@ -1,0 +1,161 @@
+#:import hex kivy.utils.get_color_from_hex
+
+PageManager:
+    LoginForm:
+
+    RegForm:
+
+    Homepage:
+
+<Homepage>:
+    name: "homepage"
+
+    FloatLayout:
+
+        Button:
+            text: "Go Back"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0,"top":1}
+            size_hint: 0.15, 0.1
+            on_release: 
+                app.root.current = "login"
+                root.manager.transition.direction = "up"
+
+
+<LoginForm>:
+    name: "login"
+
+    FloatLayout:
+
+        Label:
+            text: "Placeholder Logo"
+            font_size: (root.width**2 + root.height**2) / 12**4
+            font_name: "Arialbd"
+            pos_hint: {"x":0.2,"y":0.8}
+            size_hint: 0.6, 0.1
+
+        Button:
+            text: "Create an Acccount"
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.2,"y":0.3}
+            size_hint: 0.6, 0.1
+            on_release: 
+                app.root.current = "registration"
+                root.manager.transition.direction = "left"
+
+        Button:
+            text: "Login"
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.2,"y":0.05}
+            size_hint: 0.6, 0.2
+            on_release: 
+                app.root.current = "homepage"
+                root.manager.transition.direction = "down"
+
+<RegForm>:
+    name: "registration"
+
+    FloatLayout:
+        Label:
+            text: "Account Registration"
+            font_size: (root.width**2 + root.height**2) / 13.5**4
+            font_name: "Arialbd"
+            pos_hint: {"x":0.35,"top":1}
+            size_hint: 0.25, 0.15
+
+        Label:
+            text: "First Name: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.9}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: "fname"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.8725}
+            size_hint: 0.35,0.08
+            multiline: False
+
+        Label:
+            text: "Last Name: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.8}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: "lname"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.7725}
+            size_hint: 0.35,0.08
+            multiline: False
+
+        Label:
+            text: "Email: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.7}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: "email"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.6725}
+            size_hint: 0.35,0.08
+            multiline: False
+
+        Label:
+            text: "Address: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.6}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: "addr"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.5725}
+            size_hint: 0.35,0.08
+            multiline: False
+
+        Label:
+            text: "Phone Number: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.5}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: "addr"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.4725}
+            size_hint: 0.35,0.08
+            multiline: False
+            input_filter: "int"
+            on_text:
+                if len(self.text) >= 10: self.text = self.text[0:10]
+
+        Label:
+            text: "SSN: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.4}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: "ssn"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.3725}
+            size_hint: 0.35,0.08
+            multiline: False
+            input_filter: "int"
+            on_text:
+                if len(self.text) >= 9: self.text = self.text[0:8]
+
+
+        Button:
+            text: "Go Back"
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0,"top":1}
+            size_hint: 0.15, 0.1
+            on_release: 
+                app.root.current = "login"
+                root.manager.transition.direction = "right"
+
+        Button:
+            text: "Submit"
+            font_size: (root.width**2 + root.height**2) / 13**4
+            pos_hint: {"x":0.2,"y":0.05}
+            size_hint: 0.6, 0.2
+            on_release: 
+                app.root.current = "login"
+                root.manager.transition.direction = "right"

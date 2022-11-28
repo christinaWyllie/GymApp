@@ -1,26 +1,24 @@
 from connection import *
 from Person import *
 
-class Client(Person):
-    
+class Admin(Person):
     def __init__(self, ssn, email, phone, f, l, address):
         self.ssn = ssn
-        self.id = 8080990809809 #CHANGE THIS
+        self.id =  868838383838383883
         self.fname = f
         self.lname = l
         self.address = address
         self.phone = phone
         self.email = email
-        createClient(ssn, id, email, phone, f, l, address)
+        createAdmin(ssn, id, email, phone, f, l, address)
         
-    def getClient(self):
+    def getAdmin(self):
         return self.ssn
 
-    def addClient(self,person):
+    def addAdmin(self, person):
         id = 8888888888 #CHNAGE THIS 
-        addNewClient(person.self.ssn, person.self.fname, person.self.lname, person.self.address,
+        addNewAdmin(person.self.ssn, person.self.fname, person.self.lname, person.self.address,
                     person.self.phone, person.self.email, id)
         
-    def removeC(self, ssn):
-        removeClient(ssn)
-    
+    def removeA(self, ssn):
+        removeAdmin(ssn)

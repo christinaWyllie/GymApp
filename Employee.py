@@ -1,26 +1,25 @@
 from connection import *
-from Person import *
+from RestrictedUser import *
 
-class Client(Person):
+class Employee(RestrictedUser):
     
     def __init__(self, ssn, email, phone, f, l, address):
         self.ssn = ssn
-        self.id = 8080990809809 #CHANGE THIS
+        self.id =  868838383838383883
         self.fname = f
         self.lname = l
         self.address = address
         self.phone = phone
         self.email = email
-        createClient(ssn, id, email, phone, f, l, address)
+        createEmployee(ssn, id, email, phone, f, l, address)
         
-    def getClient(self):
+    def getEmployee(self):
         return self.ssn
 
-    def addClient(self,person):
+    def addEmployee(self, person):
         id = 8888888888 #CHNAGE THIS 
-        addNewClient(person.self.ssn, person.self.fname, person.self.lname, person.self.address,
+        addNewEmployee(person.self.ssn, person.self.fname, person.self.lname, person.self.address,
                     person.self.phone, person.self.email, id)
         
-    def removeC(self, ssn):
-        removeClient(ssn)
-    
+    def removeEmployee(self, ssn):
+        removeEmp(ssn)

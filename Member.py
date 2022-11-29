@@ -4,7 +4,6 @@ from Client import *
 class Member(Client):
     def __init__(self, ssn, email, phone, f, l, address, memberID, type, status):
         self.ssn = ssn
-        self.id =  868838383838383883
         self.fname = f
         self.lname = l
         self.address = address
@@ -14,6 +13,7 @@ class Member(Client):
         self.type = type
         self.status = status
         createMember(ssn, id, email, phone, f, l, address,memberID, type, status)
+        self.id = getMemberID(ssn)
         
     def getType(self, memberID):
         return self.type

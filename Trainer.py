@@ -5,7 +5,6 @@ from Room import *
 class Trainer(Employee):
     def __init__(self, ssn, email, phone, f, l, address, branch):
         self.ssn = ssn
-        self.id =  868838383838383883
         self.fname = f
         self.lname = l
         self.address = address
@@ -13,6 +12,7 @@ class Trainer(Employee):
         self.email = email
         self.branch = branch
         createAssociate(ssn, id, email, phone, f, l, address, branch)
+        self.id = getTrainerID(ssn)
         
     def __init__(self, ssn, email, phone, f, l, address, branch, classes):
         self.ssn = ssn

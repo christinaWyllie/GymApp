@@ -4,14 +4,14 @@ from Admin import *
 class Manager(Admin):
     def __init__(self, ssn, email, phone, f, l, address,branch):
         self.ssn = ssn
-        self.id =  86883838383
         self.fname = f
         self.lname = l
         self.address = address
         self.phone = phone
         self.email = email
         self.branch = branch
-        createManager(ssn, id, email, phone, f, l, address, branch)
+        createManager(ssn, email, phone, f, l, address, branch)
+        self.id = getManagerID(ssn)
         
     def getManager(self):
         return self.ssn

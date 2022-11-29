@@ -7,9 +7,9 @@ class Class:
         self.time = time
         self.branch_no = branch
         self.tssn = ssn
-        self.t_id = id
         self.t_email = email
         createClass(no, date, time, branch, ssn, id, email)
+        self.id = getClassID(no)
         
     def getDate(self):
         return self.date

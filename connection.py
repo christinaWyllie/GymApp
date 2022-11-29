@@ -93,7 +93,7 @@ def createEmployee(ssn, id, email, phone, f, l, address):
     
 def addNewEmployee(ssn, fname, lname, address, phone, email, id):
     cursor.execute("INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, fname, lname, address, phone, email)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s);", ssn, id, fname, lname, address, phone, email)
     cursor.commit()
     
 def removeEmp(ssn):
@@ -102,7 +102,7 @@ def removeEmp(ssn):
     
 def createAssociate(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO ASSOCIATE(sssn, s_user_id, s_email, fname, lname, address, phone_number, branch_no)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)",ssn, id, f, l, address, phone, email, branch)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
     cursor.commit()
     
 def deleteAssociate(ssn):
@@ -112,11 +112,39 @@ def deleteAssociate(ssn):
     
 def createTrainer(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO TRAINER(tssn, t_user_id, t_email, fname, lname, address, phone_number, branch_no)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)",ssn, id, f, l, address, phone, email, branch)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
     cursor.commit()
 
 def deleteTrainer(ssn):
     cursor.execute("DELETE FROM TRAINER WHERE ssn = %s;", ssn)
     cursor.commit()
+
+def addClassToTrainer(class_no, tssn):
+    cursor.execute("UPDATE TRAINER SET class_no = %s WHERE tssn = %s;", class_no, tssn)
+    cursor.commit()
+
+
+
+def getGymLocation(branch_no):
+    cursor.execute("SELECT location FROM GYM WHERE branch_no = %s", branch_no)
+    connect.commit()
+
+def getBranchNum(location):
+    cursor.execute("SELECT branch_no FROM GYM WHERE location = %s", location)
+    connect.commit()
+
+#create new subscription
+def createSubscription(login_id, name,status,branch_no):
+    cursor.execute("INSERT INTO SUBSCRIPTION(login_id, name, status, branch_no) VALUES (%s, %s, %s, %s);",login_id, name,status,branch_no)
+    connect.commit()
+
+def getSubscriptionStatus(login_id, branch_no):
+    cursor.execute("SELECT status FROM SUBSCRIPTION WHERE login_id = %s AND branch_no = %s;", login_id, branch_no)
+    connect.commit()
+
+def updateSubscriptionStatus(status, login_id, branch_no):
+    cursor.execute("UPDATE SUBSCRIPTION SET status = %s WHERE login_id = %s AND branch_no = %s;", status, login_id, branch_no)
+    connect.commit()
+
 
 connect.close()

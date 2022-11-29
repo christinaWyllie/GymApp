@@ -158,6 +158,19 @@ def updateEquipCond(condition, equipment_no, branch_no):
 def createEquip(equipment_no, amount, condition, duration, branch_no):
     cursor.execute("INSERT INTO EQUIPMENT(equipment_no, amount, condition, duration, branch_no) VALUES(%s, %s, %s, %s, %s);", equipment_no, amount, condition, duration, branch_no)
     connect.commit()
+
+def updateEquipAmount(amount, equipment_no, branch_no):
+    cursor.execute("UPDATE EQUIPMENT SET amount = %s WHERE equipment_no = %s AND branch_no = %s;", amount, equipment_no, branch_no)
+    connect.commit()
+
+def createSupply(sname, supply_no, stock, branch_no):
+    cursor.execute("INSERT INTO SUPPLY(sname, supply_no, stock, branch_no) VALUES(%s, %s, %s, %s);", sname, supply_no, stock, branch_no)
+    connect.commit()
+
+def updateSupplyStock(stock, supply_no, branch_no):
+    cursor.execute("UPDATE SUPPLIES SET stock = %s WHERE supply_no = %s AND branch_no = %s;", stock, supply_no, branch_no)
+    connect.commit()
+
 #create new subscription
 def createSubscription(login_id, name,status,branch_no):
     cursor.execute("INSERT INTO SUBSCRIPTION(login_id, name, status, branch_no) VALUES (%s, %s, %s, %s);",login_id, name,status,branch_no)

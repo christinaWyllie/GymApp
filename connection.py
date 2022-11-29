@@ -123,7 +123,41 @@ def addClassToTrainer(class_no, tssn):
     cursor.execute("UPDATE TRAINER SET class_no = %s WHERE tssn = %s;", class_no, tssn)
     cursor.commit()
 
+def updateScheduleAvail(day, r_user_id):
+    cursor.execute("UPDATE WEEKLY_SCHEDULE_AVAIL SET day = %s WHERE r_user_id = %s;", day,r_user_id)
+    connect.commit()
 
+def createClass(class_no, date, time, branch_no, t_id, t_email, tssn):
+    cursor.execute("INSERT INTO CLASS(class_no, date, time, branch_no, t_id, t_email, tssn) VALUES(%s, %s, %s, %s, %s, %s, %s);", class_no, date, time, branch_no, t_id, t_email, tssn)
+    connect.commit()
+
+def updateClassDate(date, class_no):
+    cursor.execute("UPDATE CLASS SET date = %s WHERE class_no = %s;", date, class_no)
+    connect.commit()
+
+def updateClassTime(time, class_no):
+    cursor.execute("UPDATE CLASS SET time = %s WHERE class_no = %s;",time, class_no)
+    connect.commit()
+
+def updateClassInstructor(tssn, t_id, t_email, class_no):
+    cursor.execute("UPDATE CLASS SET tssn = %s, t_id = %s, t_email = %s WHERE class_no = %s;", tssn, t_id, t_email, class_no)
+    connect.commit()
+
+def createRoom(room_id, date, duration):
+    cursor.execute("INSERT INTO ROOM(room_id, date, duration) VALUES(%s, %s, %s);", room_id, date, duration)
+    connect.commit()
+
+def cancelBooking(room_id, date, duration):
+    cursor.execute("DELETE FROM ROOMS WHERE room_id = %s, date = %s, duration = %s;",room_id, date, duration )
+    connect.commit()
+
+def updateEquipCond(condition, equipment_no, branch_no):
+    cursor.execute("UPDATE EQUIPTMENT SET condition = %s WHERE equipment_no = %s AND branch_no = %s;", condition, equipment_no, branch_no)
+    connect.commit()
+
+def createEquip(equipment_no, amount, condition, duration, branch_no):
+    cursor.execute("INSERT INTO EQUIPMENT(equipment_no, amount, condition, duration, branch_no) VALUES(%s, %s, %s, %s, %s);", equipment_no, amount, condition, duration, branch_no)
+    connect.commit()
 #create new subscription
 def createSubscription(login_id, name,status,branch_no):
     cursor.execute("INSERT INTO SUBSCRIPTION(login_id, name, status, branch_no) VALUES (%s, %s, %s, %s);",login_id, name,status,branch_no)

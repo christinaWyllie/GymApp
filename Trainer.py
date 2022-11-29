@@ -1,5 +1,6 @@
 from connection import *
 from Employee import *
+from Room import *
 
 class Trainer(Employee):
     def __init__(self, ssn, email, phone, f, l, address, branch):
@@ -31,7 +32,7 @@ class Trainer(Employee):
     def removeTrainer(self, ssn):
         deleteTrainer(ssn)
         
-    def addClass(self, Class c):
+    def addClass(self, c):
         self.classes.append(c)
         
     def bookRoom(id, date, duration):

@@ -19,5 +19,5 @@ class Associate(Employee):
     def removeAssociate(self, ssn):
         deleteAssociate(ssn)
         
-    def setEquipment(self, Equipment e):
+    def setEquipment(self, e):
         self.equipment = e

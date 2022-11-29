@@ -47,81 +47,81 @@ def updatePersonAddress(ssn, address):
 def createClient(ssn, id, email, phone, f, l, address):
     cursor.execute("INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    cursor.commit()
+    connect.commit()
     
 def addNewClient(self,ssn, fname, lname, address, phone, email, id):
     cursor.execute("INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, fname, lname, address, phone, email)
-    cursor.commit()
+    connect.commit()
 
 def removeClient(ssn):
     cursor.execute("DELETE FROM CLIENT WHERE ssn = %s;", ssn)
-    cursor.commit()
+    connect.commit()
 
 def removeAdmin(ssn):
     cursor.execute("DELETE FROM ADMIN WHERE ssn = %s;", ssn)
-    cursor.commit()
+    connect.commit()
     
 def createAdmin(ssn, id, email, phone, f, l, address):
     cursor.execute("INSERT INTO ADMIN(assn, admin_id, admin_email, fname, lname, address, phone_number)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    cursor.commit()
+    connect.commit()
     
 def addNewAdmin(self,ssn, fname, lname, address, phone, email, id):
     cursor.execute("INSERT INTO ADMIN(assn, admin_id, admin_email, fname, lname, address, phone_number)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, fname, lname, address, phone, email)
-    cursor.commit()
+    connect.commit()
 
 def removeRUser(ssn):
     cursor.execute("DELETE FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
-    cursor.commit()
+    connect.commit()
     
 def createRUser(ssn, id, email, phone, f, l, address):
     cursor.execute("INSERT INTO RESTRICTED_USER(assn, admin_id, admin_email, fname, lname, address, phone_number)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    cursor.commit()
+    connect.commit()
     
 def addNewUser(self,ssn, fname, lname, address, phone, email, id):
     cursor.execute("INSERT INTO RESTRICTED_USER(rssn, r_user_id, r_user_email, fname, lname, address, phone_number)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)",ssn, id, fname, lname, address, phone, email)
-    cursor.commit()
+    connect.commit()
     
 def createEmployee(ssn, id, email, phone, f, l, address):
     cursor.execute("INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    cursor.commit()
+    connect.commit()
     
 def addNewEmployee(ssn, fname, lname, address, phone, email, id):
     cursor.execute("INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s);", ssn, id, fname, lname, address, phone, email)
-    cursor.commit()
+    connect.commit()
     
 def removeEmp(ssn):
     cursor.execute("DELETE FROM EMPLOYEE WHERE ssn = %s;", ssn)
-    cursor.commit()
+    connect.commit()
     
 def createAssociate(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO ASSOCIATE(sssn, s_user_id, s_email, fname, lname, address, phone_number, branch_no)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
-    cursor.commit()
+    connect.commit()
     
 def deleteAssociate(ssn):
     cursor.execute("DELETE FROM ASSOCIATE WHERE ssn = %s;", ssn)
-    cursor.commit()
+    connect.commit()
     
     
 def createTrainer(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO TRAINER(tssn, t_user_id, t_email, fname, lname, address, phone_number, branch_no)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
-    cursor.commit()
+    connect.commit()
 
 def deleteTrainer(ssn):
     cursor.execute("DELETE FROM TRAINER WHERE ssn = %s;", ssn)
-    cursor.commit()
+    connect.commit()
 
 def addClassToTrainer(class_no, tssn):
     cursor.execute("UPDATE TRAINER SET class_no = %s WHERE tssn = %s;", class_no, tssn)
-    cursor.commit()
+    connect.commit()
 
 def updateScheduleAvail(day, r_user_id):
     cursor.execute("UPDATE WEEKLY_SCHEDULE_AVAIL SET day = %s WHERE r_user_id = %s;", day,r_user_id)
@@ -169,6 +169,10 @@ def createSupply(sname, supply_no, stock, branch_no):
 
 def updateSupplyStock(stock, supply_no, branch_no):
     cursor.execute("UPDATE SUPPLIES SET stock = %s WHERE supply_no = %s AND branch_no = %s;", stock, supply_no, branch_no)
+    connect.commit()
+
+def createGym(branch_no, location, o_ssn, mssn):
+    cursor.execute("INSERT INTO SUBSCRIPTION(branch_no, location, o_ssn, mssn) VALUES(%s, %s, %s, %s);", branch_no, location, o_ssn, mssn)
     connect.commit()
 
 #create new subscription

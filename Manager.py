@@ -16,5 +16,8 @@ class Manager(Admin):
     def getManager(self):
         return self.ssn
     
-    def getBranch(self, ssn):
+    def getID(self):
+        return self.id
+    
+    def getBranch(self):
         return self.branch

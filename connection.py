@@ -43,17 +43,18 @@ def updatePersonAddress(ssn, address):
     cursor.execute("UPDATE PERSON SET address = %s WHERE ssn = %s;", address, ssn)
     connect.commit()
     
-    
+#create a client 
 def createClient(ssn, id, email, phone, f, l, address):
     cursor.execute("INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    connect.commit()
+    cursor.commit()
     
 def addNewClient(self,ssn, fname, lname, address, phone, email, id):
     cursor.execute("INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, fname, lname, address, phone, email)
     connect.commit()
 
+#remove a client
 def removeClient(ssn):
     cursor.execute("DELETE FROM CLIENT WHERE ssn = %s;", ssn)
     connect.commit()

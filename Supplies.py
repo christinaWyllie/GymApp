@@ -6,10 +6,10 @@ class Supplies:
         self.sname = sname
         self.supply_no = supply
         self.stock = stock
-        createStock(branch, sname, supply, stock)
+        createSupply(sname, supply, stock, branch)
         
     def updateStock(branch, name, number, stock):
-        updateS(branch, name, number, stock)
+        updateSupplyStock(stock, number, branch)
     
     def getStock(self):
         return self.stock

@@ -5,14 +5,14 @@ class Room:
         self.id = id
         self.date = date
         self.duration = duration
-        createBooking(id, date, duration)
+        createRoom(id, date, duration)
         
     def booked(id, date, duration):
-        canBook = isBooked()
+        canBook = notBooked(id, date)
         if(canBook == True):
-            book(id, date, duration)
+            createRoom(id, date, duration)
         #else:
             #print message here
     
     def cancelBooking(id, date, duration):
-        cancelB(id, date, duration)
+        cancelBooking(id, date, duration)

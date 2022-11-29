@@ -16,14 +16,14 @@ class Class:
     
     def setDate(self, date):
         self.date = date
-        changeDate(date, self.class_no, self.branch)
+        updateClassDate(date, self.class_no)
         
     def changeTime(self, time):
         self.time = time
-        changeTime_Class(time, self.class_no, self.date, self.branch)
+        updateClassTime(time, self.class_no, self.date)
         
     def changeInstructor(self, ssn, id, email):
         self.tssn = ssn
         self.t_id = id
         self.t_email = email
-        changeInstructor_Class(ssn, id, email, self.class_no)
+        updateClassInstructor(ssn, id, email, self.class_no)

@@ -124,22 +124,9 @@ def addClassToTrainer(class_no, tssn):
     cursor.commit()
 
 
-
-def getGymLocation(branch_no):
-    cursor.execute("SELECT location FROM GYM WHERE branch_no = %s", branch_no)
-    connect.commit()
-
-def getBranchNum(location):
-    cursor.execute("SELECT branch_no FROM GYM WHERE location = %s", location)
-    connect.commit()
-
 #create new subscription
 def createSubscription(login_id, name,status,branch_no):
     cursor.execute("INSERT INTO SUBSCRIPTION(login_id, name, status, branch_no) VALUES (%s, %s, %s, %s);",login_id, name,status,branch_no)
-    connect.commit()
-
-def getSubscriptionStatus(login_id, branch_no):
-    cursor.execute("SELECT status FROM SUBSCRIPTION WHERE login_id = %s AND branch_no = %s;", login_id, branch_no)
     connect.commit()
 
 def updateSubscriptionStatus(status, login_id, branch_no):

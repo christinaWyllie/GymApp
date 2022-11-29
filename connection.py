@@ -103,7 +103,7 @@ def removeEmp(ssn):
 
 def createOwner(ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number):
     cursor.execute("INSERT INTO OWNER(ossn, owner_id, owner_email, Branch_num, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", ossn, owner_id, owner_email, Branch_num, fname, lname, address, phone_number)
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number)
     connect.commit()
     
 def removeOwner(ossn):

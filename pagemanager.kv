@@ -10,8 +10,29 @@ PageManager:
 <Homepage>:
     name: "homepage"
 
-    FloatLayout:
+    TabbedPanel:
+        size_hint: 1, 0.9
+        pos_hint: {'x': 0, 'top':0.9}
+        tab_width: root.width / 3
+        do_default_tab: False
+        TabbedPanelItem:
+            text: "Account Info"
+            FloatLayout:
+                Button:
+                    text: "Cancel Membership (Debug)"
+                    font_size: (root.width**2 + root.height**2) / 15**4
+                    pos_hint: {"center_x":0.5,"center_y":0.5}
+                    size_hint: 0.35, 0.1
+        TabbedPanelItem:
+            text: "See Classes"
+            Label:
+                text: "First tab"
+        TabbedPanelItem:
+            text: "See Equipment Status"
+            Label:
+                text: "Second tab"
 
+    FloatLayout:
         Button:
             text: "Go Back"
             font_size: (root.width**2 + root.height**2) / 14**4
@@ -25,6 +46,9 @@ PageManager:
 <LoginForm>:
     name: "login"
 
+    email: email
+    passw: passw
+
     FloatLayout:
 
         Label:
@@ -34,8 +58,33 @@ PageManager:
             pos_hint: {"x":0.2,"y":0.8}
             size_hint: 0.6, 0.1
 
+        Label:
+            text: "Email: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.7}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: email
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.6725}
+            size_hint: 0.35,0.08
+            multiline: False
+
+        Label:
+            text: "Password: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x":0.1,"top":0.6}
+            size_hint: 0.35, 0.15
+        TextInput:
+            id: passw
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.5725}
+            size_hint: 0.35,0.08
+            multiline: False
+            password: True
+
         Button:
-            text: "Create an Acccount"
+            text: "Create an Account"
             font_size: (root.width**2 + root.height**2) / 13**4
             pos_hint: {"x":0.2,"y":0.3}
             size_hint: 0.6, 0.1
@@ -51,6 +100,8 @@ PageManager:
             on_release: 
                 app.root.current = "homepage"
                 root.manager.transition.direction = "down"
+                root.submit()
+
 
 <RegForm>:
     name: "registration"
@@ -61,6 +112,7 @@ PageManager:
     addr: addr
     phone: phone
     ssn: ssn
+    passw: passw
 
     FloatLayout:
         Label:
@@ -148,6 +200,20 @@ PageManager:
             on_text:
                 if len(self.text) >= 9: self.text = self.text[0:8]
 
+        Label:
+            text: "Password: "
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.1, "top":0.3}
+            size_hint: 0.35,0.15 
+
+        TextInput:
+            id: passw  
+            font_size: (root.width**2 + root.height**2) / 14**4
+            pos_hint: {"x": 0.45, "top":0.2725}
+            size_hint: 0.35,0.08
+            multiline: False
+            password: True
+
 
         Button:
             text: "Go Back"
@@ -162,8 +228,8 @@ PageManager:
             text: "Submit"
             font_size: (root.width**2 + root.height**2) / 13**4
             pos_hint: {"x":0.2,"y":0.05}
-            size_hint: 0.6, 0.2
+            size_hint: 0.6, 0.1
             on_release: 
-                app.root.current = "login"
-                root.manager.transition.direction = "right"
                 root.submit()
+                app.root.current = "login"
+                root.manager.transition.direction = "right" 

@@ -100,6 +100,15 @@ def addNewEmployee(ssn, fname, lname, address, phone, email, id):
 def removeEmp(ssn):
     cursor.execute("DELETE FROM EMPLOYEE WHERE ssn = %s;", ssn)
     connect.commit()
+
+def createOwner(ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number):
+    cursor.execute("INSERT INTO OWNER(ossn, owner_id, owner_email, Branch_num, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", ossn, owner_id, owner_email, Branch_num, fname, lname, address, phone_number)
+    connect.commit()
+    
+def removeOwner(ossn):
+    cursor.execute("DELETE FROM OWNER WHERE ossn = %s;", ossn)
+    connect.commit()
     
 def createAssociate(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO ASSOCIATE(sssn, s_user_id, s_email, fname, lname, address, phone_number, branch_no)\
@@ -110,7 +119,11 @@ def deleteAssociate(ssn):
     cursor.execute("DELETE FROM ASSOCIATE WHERE ssn = %s;", ssn)
     connect.commit()
     
-    
+def createManager(mssn, m_id, m_email, branch_no, f, l, address, phone_number):
+    cursor.execute("INSERT INTO MANAGER(mssn, m_id, m_email, branch_no, f, l, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", mssn, m_id, m_email, branch_no, f, l, address, phone_number)
+    connect.commit()
+
 def createTrainer(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO TRAINER(tssn, t_user_id, t_email, fname, lname, address, phone_number, branch_no)\
                     VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
@@ -122,6 +135,19 @@ def deleteTrainer(ssn):
 
 def addClassToTrainer(class_no, tssn):
     cursor.execute("UPDATE TRAINER SET class_no = %s WHERE tssn = %s;", class_no, tssn)
+    connect.commit()
+
+def createMember(mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number):
+    cursor.execute("INSERT INTO MEMBER(mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number)
+    connect.commit()
+
+def updateMemberStatus(membership_id, status):
+    cursor.execute("UPDATE MEMBER SET status = %s WHERE membership_id = %s;", status, membership_id)
+    connect.commit()
+
+def updateMemberType(membership_id, type):
+    cursor.execute("UPDATE MEMBER SET type = %s WHERE membership_id = %s;", type, membership_id)
     connect.commit()
 
 def updateScheduleAvail(day, r_user_id):

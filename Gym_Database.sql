@@ -51,6 +51,10 @@ m_id CHAR(10) NOT NULL,
 m_email VARCHAR(25) NOT NULL,
 branch_no INT NOT NULL,
 PRIMARY KEY (m_id),
+fname VARCHAR(15) NOT NULL,
+lname VARCHAR(15) NOT NULL,
+address VARCHAR(30),
+phone_number INT NOT NULL,
 FOREIGN KEY (mssn) REFERENCES ADMIN(assn),
 FOREIGN KEY (m_email) REFERENCES ADMIN(admin_email) 
 );

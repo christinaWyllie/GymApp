@@ -1,14 +1,15 @@
-#:import hex kivy.utils.get_color_from_hex
 
-PageManager:
-    LoginForm:
+# PageManager:
+#     LoginForm:
 
-    RegForm:
+#     RegForm:
 
-    Homepage:
+#     Homepage:
+
 
 <Homepage>:
     name: "homepage"
+    rv: rv # expose the widget
 
     TabbedPanel:
         size_hint: 1, 0.9
@@ -27,20 +28,29 @@ PageManager:
             text: "See Classes"
             Label:
                 text: "First tab"
+            BoxLayout:
+                RecycleView:
+                    id: rv
+                    viewclass: 'Label'
+                    RecycleBoxLayout:
+                        default_size: None, dp(56)
+                        default_size_hint: 1, None
+                        size_hint_y: None
+                        height: self.minimum_height
+                        orientation: 'vertical'
         TabbedPanelItem:
             text: "See Equipment Status"
             Label:
                 text: "Second tab"
 
-    FloatLayout:
-        Button:
-            text: "Go Back"
-            font_size: (root.width**2 + root.height**2) / 14**4
-            pos_hint: {"x":0,"top":1}
-            size_hint: 0.15, 0.1
-            on_release: 
-                app.root.current = "login"
-                root.manager.transition.direction = "up"
+    Button:
+        text: "Go Back"
+        font_size: (root.width**2 + root.height**2) / 14**4
+        pos_hint: {"x":0,"top":1}
+        size_hint: 0.15, 0.1
+        on_release: 
+            app.root.current = "login"
+            root.manager.transition.direction = "up"
 
 
 <LoginForm>:

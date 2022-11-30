@@ -11,10 +11,14 @@ from kivy.lang import Builder
 from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.tabbedpanel import TabbedPanel
+from kivy.uix.recycleview import RecycleView
 
-class Homepage(Screen):
-    pass
 
+# class ListaEventos(Screen):
+#     def __init__(self, **kwargs):
+#         super(ListaEventos, self).__init__(**kwargs)
+#         # assigning data in RecyclerView
+#         self.rv.data = [{'text': str(x)} for x in range(100)]
 
 class RegForm(Screen):
     fname = ObjectProperty(None)
@@ -92,12 +96,21 @@ class LoginForm(Screen):
 class PageManager(ScreenManager):
     pass
 
+class Homepage(Screen):
+        def __init__(self, **kwargs):
+            super(Homepage, self).__init__(**kwargs)
+            self.rv.data = [{'text': str(x)} for x in range(200)]
 
-pageManager = Builder.load_file("pagemanager.kv")
+Builder.load_file("pagemanager.kv")
+
+sm = ScreenManager()
+sm.add_widget(LoginForm(name="login"))
+sm.add_widget(RegForm(name="registration"))
+sm.add_widget(Homepage(name="homepage"))
 
 class MainApp(App):
     def build(self):
-        return pageManager
+        return sm
 
 if __name__ == "__main__":
     MainApp().run()

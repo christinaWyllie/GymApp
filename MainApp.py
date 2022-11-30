@@ -12,13 +12,8 @@ from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.popup import Popup
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.recycleview import RecycleView
+from kivy.uix.boxlayout import BoxLayout
 
-
-# class ListaEventos(Screen):
-#     def __init__(self, **kwargs):
-#         super(ListaEventos, self).__init__(**kwargs)
-#         # assigning data in RecyclerView
-#         self.rv.data = [{'text': str(x)} for x in range(100)]
 
 class RegForm(Screen):
     fname = ObjectProperty(None)
@@ -28,11 +23,18 @@ class RegForm(Screen):
     phone = ObjectProperty(None)
     ssn = ObjectProperty(None)
     passw = ObjectProperty(None)
-
     error = 0
     pass
 
     def submit(self):
+        fields = [self.fname,self.lname,self.email,self.addr,self.phone,self.ssn,self.passw]
+        
+        for field in fields:
+            if (field.text == ""):
+                invalidReg("empty")
+                self.error = 1
+                return
+
         if (self.email.text.find("@") != -1 and self.email.text.find(".") != -1):
             if len(self.phone.text) == 10:
                 if len(self.ssn.text) == 9:
@@ -42,16 +44,15 @@ class RegForm(Screen):
                     print("Phone Number: ", self.phone.text)
                     print("SSN: ", self.ssn.text)
                     print("Password: ",self.passw.text)
-                    error = 0
                     self.reset()
                 else:
-                    error = 1
+                    self.error = 1
                     invalidReg("ssn")
             else:
-                error = 1
+                self.error = 1
                 invalidReg("phone")
         else:
-            error = 1
+            self.error = 1
             invalidReg("email")
     
     def reset(self):
@@ -64,6 +65,11 @@ class RegForm(Screen):
         self.passw.text = ""
 
 def invalidReg(type):
+    if (type == "empty"):
+        pop = Popup(title = "Error while creating account",
+                    content = Label(text="Please fill in all fields."),
+                    size_hint=(None,None), size=(400,400))
+        pop.open()
     if (type == "email"):
         pop = Popup(title = "Error while creating account",
                     content = Label(text="Invalid email."),
@@ -93,20 +99,46 @@ class LoginForm(Screen):
         self.email.text = ""
         self.passw.text = ""
 
-class PageManager(ScreenManager):
+class FourFieldLine(BoxLayout):
     pass
 
-class Homepage(Screen):
+class FiveFieldLine(BoxLayout):
+    pass
+
+
+class ClientHomepage(Screen):
+
+        tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
+                 {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
+                 {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
+                 {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
+                ]
+
+        tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
+                 {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
+                 {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
+                 {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
+                ]
+
         def __init__(self, **kwargs):
-            super(Homepage, self).__init__(**kwargs)
-            self.rv.data = [{'text': str(x)} for x in range(200)]
+            super(ClientHomepage, self).__init__(**kwargs)
+
+            self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.tempClass]
+            self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
+
+        pass
+
+
+class EmpHomepage(Screen):
+    pass
+
 
 Builder.load_file("pagemanager.kv")
 
 sm = ScreenManager()
 sm.add_widget(LoginForm(name="login"))
 sm.add_widget(RegForm(name="registration"))
-sm.add_widget(Homepage(name="homepage"))
+sm.add_widget(ClientHomepage(name="chomepage"))
 
 class MainApp(App):
     def build(self):

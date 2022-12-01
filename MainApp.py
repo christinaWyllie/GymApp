@@ -23,7 +23,6 @@ class RegForm(Screen):
     phone = ObjectProperty(None)
     ssn = ObjectProperty(None)
     passw = ObjectProperty(None)
-    error = 0
     pass
 
     def submit(self):
@@ -45,15 +44,16 @@ class RegForm(Screen):
                     print("SSN: ", self.ssn.text)
                     print("Password: ",self.passw.text)
                     self.reset()
+                    return 0
                 else:
-                    self.error = 1
                     invalidReg("ssn")
+                    return 1
             else:
-                self.error = 1
                 invalidReg("phone")
+                return 1
         else:
-            self.error = 1
             invalidReg("email")
+            return 1
     
     def reset(self):
         self.fname.text = ""
@@ -108,25 +108,32 @@ class FiveFieldLine(BoxLayout):
 
 class ClientHomepage(Screen):
 
-        tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
-                 {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
-                 {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
-                 {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
-                ]
+        tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
 
-        tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
-                 {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
-                 {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
-                 {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
-                ]
+        # tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
+        #          {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
+        #          {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
+        #          {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
+        #         ]
+
+        # tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
+        #          {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
+        #          {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
+        #          {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
+        #         ]
 
         def __init__(self, **kwargs):
             super(ClientHomepage, self).__init__(**kwargs)
 
-            self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.tempClass]
-            self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
+            self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
+            # self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
 
         pass
+
+        def getClasses(self):
+            headers = ["date","time","branchno","email","tname"]
+            result = [dict(zip(headers, data)) for data in self.tempClass]
+            return result
 
 
 class EmpHomepage(Screen):

@@ -13,7 +13,7 @@ class WeeklySchedule:
         self.week_no = today.isocalendar().week
         
     def changeWeek(self):
-        return self.ssn
+        self.week_no = self.week_no + 1
     
     def changeAvalability(self, rssn):
         return self.branch

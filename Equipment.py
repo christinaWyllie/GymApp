@@ -7,13 +7,15 @@ class Equipment:
         self.amount = amount
         self.condition = condition
         self.branch = branch
-        createEquipment(no, amount, condition, branch)
+        createEquip(no, amount, condition, branch)
         
-    def updateCondition(no, status):
-        updateC(no, status)
+    def updateCondition(self, status):
+        updateEquipCond(self.no, status)
+        self.status = status
         
-    def addAmount(no):
-        addEquipment(no)
+    def addAmount(self):
+        updateEquipAmount(self.no)
+        self.amount = self.amount +1
     
     def getAmount(self):
         return self.amount

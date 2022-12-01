@@ -235,6 +235,7 @@ def getRUserID(ssn):
     cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
 
+#https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
 def getClasses():
     cursor.execute("SELECT * FROM CLASS;")
     data = cursor.fetchall()

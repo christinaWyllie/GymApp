@@ -23,8 +23,8 @@ class Member(Client):
         
     def changeStatus(self, memberID, stat):
         self.status = stat
-        updateStatus(memberID, stat)
+        updateMemberStatus(memberID, stat)
         
     def setType(self, id, type):
         self.type = type
-        updateType(id, type)
+        updateMemberType(id, type)

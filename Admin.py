@@ -17,8 +17,8 @@ class Admin(Person):
 
     def addAdmin(self, person):
         self.id = getAdminID(self.person.ssn)
-        addNewAdmin(self.person.ssn, self.person.fname, self.person.lname, self.person.address,
-                    self.person.phone, self.person.email, self.id)
+        addNewAdmin(person.ssn, person.fname, person.lname, person.address,
+                    person.phone, person.email, self.id)
         
     def removeA(self, ssn):
         removeAdmin(ssn)

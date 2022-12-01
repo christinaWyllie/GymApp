@@ -18,8 +18,8 @@ class Client(Person):
 
     def addClient(self,person):
         self.id = getClientID(self.person.ssn)
-        addNewClient(self.person.ssn, self.person.fname, self.person.lname, self.person.address,
-                    self.person.phone, self.person.email, self.id)
+        addNewClient(person.ssn, person.fname, person.lname, person.address,
+                    person.phone, person.email, self.id)
         
     def removeC(self, ssn):
         removeClient(ssn)

@@ -1,5 +1,6 @@
 from connection import *
 from RestrictedUser import *
+from Person import *
 
 class Employee(RestrictedUser):
     
@@ -17,9 +18,9 @@ class Employee(RestrictedUser):
         return self.ssn
 
     def addEmployee(self, person):
-        self.id = getEmployeeID(ssn)
-        addNewEmployee(self.person.ssn, self.person.fname, self.person.lname, self.person.address,
-                    self.person.phone, self.person.email, self.id)
+        self.id = getEmployeeID(person.ssn)
+        addNewEmployee(person.ssn, person.fname, person.lname, person.address,
+                    person.phone, person.email, self.id)
         
     def removeEmployee(self, ssn):
         removeEmp(ssn)

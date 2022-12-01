@@ -212,6 +212,7 @@ def updateSubscriptionStatus(status, login_id, branch_no):
     cursor.execute("UPDATE SUBSCRIPTION SET status = %s WHERE login_id = %s AND branch_no = %s;", status, login_id, branch_no)
     connect.commit()
 
+#getters for the id's for all the different types of people
 def getRUserID(ssn):
     cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
@@ -222,17 +223,26 @@ def getManagerID(ssn):
 def getRUserID(ssn):
     cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getRUserID(ssn):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+def getEmployeeID(ssn):
+    cursor.execute("SELECT essn FROM EMPLOYEE WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getRUserID(ssn):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+def getClientID(ssn):
+    cursor.execute("SELECT cssn FROM CLIENT WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getRUserID(ssn):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+def getAdminID(ssn):
+    cursor.execute("SELECT assn FROM ADMIN WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getRUserID(ssn):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+def getAssociateID(ssn):
+    cursor.execute("SELECT sssn FROM ASSOCIATE WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getTrainerID(ssn):
+    cursor.execute("SELECT tssn FROM TRAINER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getMemberID(ssn):
+    cursor.execute("SELECT mssn FROM MEMBER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getOwnerID(ssn):
+    cursor.execute("SELECT ossn FROM OWNER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
 
 #https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
@@ -247,5 +257,8 @@ def getClasses():
             
         classArray.append(new)
     return classArray
+
+def validateLogin(user, password):
+    cursor.execute("SELECT")
 
 connect.close()

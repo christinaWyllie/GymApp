@@ -1,5 +1,6 @@
 import mysql.connector
 from mysql.connector import Error
+from array import *
 
 try:
     connect = mysql.connector.connect(user = 'final', password = 'cpsc', 
@@ -211,5 +212,39 @@ def updateSubscriptionStatus(status, login_id, branch_no):
     cursor.execute("UPDATE SUBSCRIPTION SET status = %s WHERE login_id = %s AND branch_no = %s;", status, login_id, branch_no)
     connect.commit()
 
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+
+def getManagerID(ssn):
+    cursor.execute("SELECT mssn FROM MANAGER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+    return cursor.fetchall()
+
+def getClasses():
+    cursor.execute("SELECT * FROM CLASS;")
+    data = cursor.fetchall()
+    classArray = []
+    for row in data:
+        new = []
+        for index in row:
+            new.append(index)
+            
+        classArray.append(new)
+    return classArray
 
 connect.close()

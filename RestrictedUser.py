@@ -18,8 +18,29 @@ class RestrictedUser(Person):
 
     def addRUser(self, person):
         self.id = getRUserID(self.ssn)
-        addNewUser(self.person.ssn, self.person.fname, self.person.lname, self.person.address,
-                    self.person.phone, self.person.email, self.id)
+        addNewUser(person.ssn, person.fname, person.lname, person.address,
+                    person.phone, person.email, self.id, person.password)
         
     def removeRU(self, ssn):
         removeRUser(ssn)
+        
+        
+    def validateLogin(user, password):
+        cursor.execute("SELECT email FROM PERSON")
+        results = cursor.fetchall()
+        for r in results:
+            if user == r:
+                query = "SELECT pass FROM PERSON WHERE email = %s;"
+                value = user
+                cursor.execute(query, value)
+                res = cursor.fetchone()
+                if password == res:
+                    return True
+                
+        return False
+    
+    def changePass(username, password):
+        query = "UPDATE PERSON SET pass = %s WHERE username = %s"
+        values = (password, username)
+        cursor.execute(query, values)
+        connect.commit()

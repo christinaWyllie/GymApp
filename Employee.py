@@ -4,14 +4,15 @@ from Person import *
 
 class Employee(RestrictedUser):
     
-    def __init__(self, ssn, email, phone, f, l, address):
+    def __init__(self, ssn, email, phone, f, l, address, password):
         self.ssn = ssn
         self.fname = f
         self.lname = l
         self.address = address
         self.phone = phone
         self.email = email
-        createEmployee(ssn, id, email, phone, f, l, address)
+        self.password = password
+        createEmployee(ssn, id, email, phone, f, l, address, password)
         self.id = getEmployeeID(ssn)
         
     def getEmployee(self):

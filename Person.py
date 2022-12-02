@@ -2,15 +2,16 @@ from connection import *
 
 class Person:
     
-    def __init__(self, ssn, f, l, address, phone, email):
+    def __init__(self, ssn, f, l, address, phone, email, password):
         self.ssn = ssn
         self.fname = f
         self.lname = l
         self.address = address
         self.phone = phone
         self.email = email
+        self.password = password
         #create person inside the database
-        createPerson(ssn, f, l, address, phone, email)
+        createPerson(ssn, f, l, address, phone, email, password)
         
     def removePerson(self, ssn):
         deletePerson(ssn)
@@ -47,3 +48,7 @@ class Person:
         self.address = address
         #update person's address
         updatePersonAddress(self.ssn, address)
+        
+    def changePassword(self, password):
+        self.password = password
+        changePass(password)

@@ -16,6 +16,7 @@ from kivy.uix.boxlayout import BoxLayout
 from Connection import Database
 
 db = Database()
+loggedInEmail = None
 
 class RegForm(Screen):
     fname = ObjectProperty(None)
@@ -39,7 +40,7 @@ class RegForm(Screen):
             if len(self.phone.text) == 10:
                 if len(self.ssn.text) == 9:
                     db.createPerson(self.ssn.text, self.fname.text, self.lname.text, 
-                                         self.addr.text, self.phone.text, self.email.text)
+                                    self.addr.text, self.passw.text, self.phone.text, self.email.text)
                     print("Name: ", self.fname.text, self.lname.text)
                     print("Email: ", self.email.text)
                     print("Address: ", self.addr.text)
@@ -96,33 +97,59 @@ class LoginForm(Screen):
     pass
 
     def submit(self):
-        #Possible SQL query
-        print("Email:", self.email.text)
-        print("Password:", self.passw.text)
+        # print("Email:", self.email.text)
+        # print("Password:", self.passw.text)
+
+        # return 0
 
         if (self.email.text == "" or self.passw.text == ""):
             self.invalidLogin("empty")
-            return 1
+            return -1
         elif (self.email.text.find("@") == -1 or self.email.text.find(".") == -1 ):
             self.invalidLogin("email")
-            return 1
+            return -1
         else:
-            self.email.text = ""
-            self.passw.text = ""
-            return 0
+            if (not db.validateLogin(self.email.text, self.passw.text)):
+                print("LOGIN FAILED")
+                self.invalidLogin("invalid")
+                return -1
+            else:
+                userType = db.checkUserType(self.email.text)
+                if (userType == "person"):
+                    self.invalidLogin("person")
+                else:
+                    print("SUCCESS LOGIN")
+                    global loggedInEmail
+                    loggedInEmail = self.email.text
+                    self.email.text = ""
+                    self.passw.text = ""
+                return (userType)
 
     def invalidLogin(self,type):
         if (type == "empty"):
-            pop = Popup(title = "Error while logging in",
-                    content = Label(text="Please fill in all fields."),
+            pop = Popup(title = "Login",
+                    content = Label(text="ERROR: Please fill in all fields"),
                     size_hint=(None,None), size=(400,200))
             pop.open()
         elif (type == "email"):
-            pop = Popup(title = "Error while logging in",
-                    content = Label(text="Invalid email."),
+            pop = Popup(title = "Login",
+                    content = Label(text="ERROR: Invalid email"),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+        elif (type == "invalid"):
+            pop = Popup(title = "Login",
+                    content = Label(text="ERROR: Invalid credentials"),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+        elif (type == "person"):
+            pop = Popup(title = "Login",
+                    content = Label(text="ERROR: Account not yet confirmed. Visit the front desk"),
                     size_hint=(None,None), size=(400,200))
             pop.open()
 
+
+class ThreeFieldLine(BoxLayout):
+    pass
 
 class FourFieldLine(BoxLayout):
     pass
@@ -159,20 +186,58 @@ class ClientHomepage(Screen):
         headers = ["date","time","branchno","email","tname"]
         result = [dict(zip(headers, data)) for data in self.tempClass]
         return result
+    
+    def logout(self):
+        global loggedInEmail
+        loggedInEmail = None
+
 
 
 class EmpHomepage(Screen):
+    client_email = ObjectProperty(None)
     tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
     pass 
 
     def __init__(self, **kwargs):
         super(EmpHomepage, self).__init__(**kwargs)
+        array = self.getClasses()
+        # print(array)
         self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
 
     def getClasses(self):
-            headers = ["date","time","branchno","email","tname"]
-            result = [dict(zip(headers, data)) for data in self.tempClass]
-            return result
+        headers = ["date","time","branchno","email","tname"]
+        result = [dict(zip(headers, data)) for data in db.getClasses()]
+        return result
+
+    def moveToClient(self):
+        if (self.client_email.text == ""):
+            pop = Popup(title = "Member Control Panel",
+                    content = Label(text="ERROR: Please fill in email field."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+            return -1
+        elif (self.client_email.text.find("@") == -1 or self.client_email.text.find(".") == -1):
+            pop = Popup(title = "Member Control Panel",
+                    content = Label(text="ERROR: Please use a valid email."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+            return -1
+        else:
+            if (db.createClient(self.client_email.text) != -1):
+                pop = Popup(title = "Member Control Panel",
+                    content = Label(text="Client creation was successful"),
+                    size_hint=(None,None), size=(400,200))
+                pop.open()
+            else:
+                pop = Popup(title = "Member Control Panel",
+                    content = Label(text="ERROR: Something went wrong when moving user to client"),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+        
+    def logout(self):
+        global loggedInEmail
+        loggedInEmail = None
+
 
 
 Builder.load_file("pagemanager.kv")

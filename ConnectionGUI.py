@@ -2,6 +2,8 @@ import mysql.connector
 from mysql.connector import Error
 from array import *
 
+#MAKE SURE TO RENAME THIS FILE TO 'Connection' BEFORE USING WITH THE GUI!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 class Database:
 
     def __init__(self):
@@ -20,13 +22,88 @@ class Database:
     def close(self):
         self.connect.close()
 
-# #create an new person in the Person table
-    def createPerson(self, ssn, f, l, address, phone, email):
-        insert = "INSERT INTO PERSON(ssn, fname, lname, address, phone_number, email) VALUES (%s, %s, %s, %s, %s, %s)"
-        values =(ssn, f, l, address, int(phone), email)
+    def validateLogin(self, email, passw):
+        print("Checking for: "+email)
+        self.cursor.execute("SELECT email FROM PERSON")
+        results = self.cursor.fetchall()
+        print(results)
+        for  r in results:
+            if email == r[0]:
+                query = "SELECT pass FROM PERSON WHERE email = %(email)s"
+                self.cursor.execute(query, {'email' : email})
+                res = self.cursor.fetchone()
+                if passw == res[0]:
+                    return True
+                else:
+                    return False
+        return False
+
+# create an new person in the Person table
+    def createPerson(self, ssn, f, l, address, passw, phone, email):
+        insert = "INSERT INTO PERSON(ssn, fname, lname, address, pass, phone_number, email) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+        values =(ssn, f, l, address, passw, int(phone), email)
         self.cursor.execute(insert, values)
         self.connect.commit()
+
+# create a new client from the email of a person
+    def createClient(self, email):
+        self.cursor.execute("Select * FROM PERSON WHERE email = %s GROUP BY email", (email,))
+        results = self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            print(results)
+            try:
+                insert = "INSERT INTO CLIENT (cssn, fname, lname, address, client_pass, phone_number, client_email) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                values = results[0]
+                self.cursor.execute(insert, values)
+                self.connect.commit()
+                return 0
+            except Error as E:
+                print("Error occured while inserting into client.")
+                return -1
+        else:
+            return -1
+
+    def checkUserType(self, email):
+        self.cursor.execute("Select * FROM CLIENT WHERE client_email = %s GROUP BY client_email", (email,))
+        self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return "client"
+        self.cursor.execute("Select * FROM EMPLOYEE WHERE e_email = %s GROUP BY e_email", (email,))
+        self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return "employee"
+        self.cursor.execute("Select * FROM ADMIN WHERE admin_email = %s GROUP BY admin_email", (email,))
+        self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return "admin"
+        self.cursor.execute("Select * FROM OWNER WHERE owner_email = %s GROUP BY owner_email", (email,))
+        self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return "owner"
+        return "person"
         
+        
+
+    # def getInfoFromEmail(self,email):
+    #     self.cursor.execute("SELECT fname, lname, email, phone_number, address FROM PERSON WHERE email = %s GROUP BY email", (email,))
+    #     results = self.cursor.fetchall()
+    #     if (self.cursor.rowcount > 0):
+    #         return results
+    
+    # https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
+    # def getClasses(self):
+    #     self.cursor.execute("SELECT * FROM CLASS;")
+    #     data = self.cursor.fetchall()
+    #     # print(data)
+    #     classArray = []
+    #     for row in data:
+    #         new = []
+    #         for index in row:
+    #             new.append(index)
+                
+    #         classArray.append(new)
+    #     return classArray
+
 #     #delete an existing person
 #     def deletePerson(ssn):
 #         cursor.execute("DELETE FROM PERSON WHERE ssn = %s;", ssn)
@@ -242,16 +319,3 @@ class Database:
 #     def getRUserID(ssn):
 #         cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
 #         return cursor.fetchall()
-
-#     #https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
-#     def getClasses():
-#         cursor.execute("SELECT * FROM CLASS;")
-#         data = cursor.fetchall()
-#         classArray = []
-#         for row in data:
-#             new = []
-#             for index in row:
-#                 new.append(index)
-                
-#             classArray.append(new)
-#         return classArray

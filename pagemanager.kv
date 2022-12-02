@@ -37,6 +37,18 @@
                 root.dismiss()
 
 
+<ThreeFieldLine>:
+    orientation: 'horizontal'
+    label_1: ''
+    label_2: ''
+    label_3: ''
+    Label:
+        text: root.label_1
+    Label:
+        text: root.label_2
+    Label:
+        text: root.label_3
+
 <FourFieldLine>:
     orientation: 'horizontal'
     label_1: ''
@@ -73,15 +85,18 @@
 
 <EmpHomepage>:
     classes: classes # expose the widget
+    supply: supply
     equipment: equipment
+    client_email: client_email
 
     TabbedPanel:
         size_hint: 1, 0.9
         pos_hint: {'x': 0, 'top':0.9}
-        tab_width: root.width / 6
+        tab_width: root.width / 7
         do_default_tab: False
         TabbedPanelItem:
             text: "Account Info"
+            text_size: self.size
             FloatLayout:
                 GridLayout:
                     pos_hint: {"center_x":0.5,"center_y":0.65}
@@ -126,8 +141,49 @@
                     on_release: Factory.EmailPopup().open()
 
         
+        #----------------- CHANGE MEMBERS FOR EMPLOYEE ------------------#
+        TabbedPanelItem:
+            text: "Member Control Panel"
+            text_size: self.size
+            FloatLayout:
+                Label:
+                    text: "Email of User:"
+                    pos_hint: {"center_x": 0.215, "center_y":0.775}
+                TextInput:
+                    id: client_email
+                    font_size: (root.width**2 + root.height**2) / 14**4
+                    pos_hint: {"center_x": 0.5, "center_y":0.7}
+                    size_hint: 0.7,0.1
+                    multiline: False
+                GridLayout:
+                    cols: 4
+                    rows: 1
+                    spacing: [0.01, 0]
+                    pos_hint: {"center_x": 0.5, "center_y":0.575}
+                    size_hint: 0.7, 0.1
+                    Button:
+                        text: "Add Client"
+                        on_release: root.moveToClient()
+                    Button:
+                        text: "Remove Client"
+                    Button:
+                        text: "Add Member"
+                    Button:
+                        text: "Remove Member"
+                GridLayout:
+                    cols: 1
+                    row: 1
+                    pos_hint: {"center_x": 0.5, "center_y":0.465}
+                    size_hint: 0.7, 0.1
+                    Button:
+                        text: "Display Info for User"
+
+                
+                    
+        #----------------- SEE CLASSES FOR EMPLOYEE ------------------#
         TabbedPanelItem:
             text: "See Classes"
+            text_size: self.size
             GridLayout:
                 cols: 1
                 rows: 2
@@ -159,17 +215,47 @@
                             height: self.minimum_height
                             orientation: 'vertical'
 
+        #----------------- SEE SUPPLIES FOR EMPLOYEE ------------------#
         TabbedPanelItem:
             text: "See Supply Status"
-
-        TabbedPanelItem:
-            text: "See Equipment Status"
-            font_size: dp(13)
+            text_size: self.size
             GridLayout:
                 cols: 1
                 rows: 2
                 GridLayout:
-                    cols: 4
+                    cols: 3
+                    rows: 1
+                    size_hint_y: 0.04
+                    Label:
+                        text: "Supply No."
+                    Label:
+                        text: "Supply Name"
+                    Label:
+                        text: "Stock"
+                GridLayout:
+                    cols: 1
+                    rows: 1
+                    size_hint_y: 0.96
+                    RecycleView:
+                        id: supply
+                        viewclass: 'ThreeFieldLine'
+                        RecycleBoxLayout:
+                            default_size: None, dp(56)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
+
+
+        #----------------- SEE EQUIPMENT FOR EMPLOYEE ------------------#
+        TabbedPanelItem:
+            text: "See Equipment Status"
+            text_size: self.size
+            GridLayout:
+                cols: 1
+                rows: 2
+                GridLayout:
+                    cols: 3
                     rows: 1
                     size_hint_y: 0.04
                     Label:
@@ -178,27 +264,59 @@
                         text: "Amount"
                     Label:
                         text: "Condition"
-                    Label:
-                        text: "Branch_no"
                 GridLayout:
                     cols: 1
                     rows: 1
                     size_hint_y: 0.96
                     RecycleView:
                         id: equipment
-                        viewclass: 'FourFieldLine'
+                        viewclass: 'ThreeFieldLine'
                         RecycleBoxLayout:
                             default_size: None, dp(56)
                             default_size_hint: 1, None
                             size_hint_y: None
                             height: self.minimum_height
                             orientation: 'vertical'
+            # TextInput:
+            #     id: equip_cond
+            # Button:
+            #     text: 
             
+        #----------------- SEE ROOMS FOR EMPLOYEE ------------------#
         TabbedPanelItem:
             text: "See Room Status"
+            text_size: self.size
+            GridLayout:
+                cols: 1
+                rows: 2
+                GridLayout:
+                    cols: 3
+                    rows: 1
+                    size_hint_y: 0.04
+                    Label:
+                        text: "Room ID"
+                    Label:
+                        text: "Date"
+                    Label:
+                        text: "Duration"
+                GridLayout:
+                    cols: 1
+                    rows: 1
+                    size_hint_y: 0.96
+                    RecycleView:
+                        id: supply
+                        viewclass: 'ThreeFieldLine'
+                        RecycleBoxLayout:
+                            default_size: None, dp(56)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
 
+        #----------------- SEE SCHEDULE FOR EMPLOYEE ------------------#
         TabbedPanelItem:
             text: "See Schedule"
+            text_size: self.size
 
     Button:
         text: "Logout"
@@ -206,6 +324,7 @@
         pos_hint: {"x":0.002,"top":1}
         size_hint: 0.15, 0.1
         on_release: 
+            root.logout()
             app.root.current = "login"
             root.manager.transition.direction = "up"
 
@@ -303,6 +422,7 @@
         pos_hint: {"x":0.002,"top":1}
         size_hint: 0.15, 0.1
         on_release: 
+            root.logout()
             app.root.current = "login"
             root.manager.transition.direction = "up"
 
@@ -360,7 +480,10 @@
             pos_hint: {"x":0.2,"y":0.05}
             size_hint: 0.6, 0.2
             on_release: 
-                if (root.submit() == 0): \
+                if (root.submit() == "client"): \
+                app.root.current = "chomepage"; \
+                root.manager.transition.direction = "down" 
+                elif (root.submit() == "employee"): \
                 app.root.current = "ehomepage"; \
                 root.manager.transition.direction = "down" 
 

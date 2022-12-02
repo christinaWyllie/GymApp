@@ -259,6 +259,7 @@ def getClasses():
     return classArray
 
 def validateLogin(user, password):
-    cursor.execute("SELECT")
+    cursor.execute("SELECT email FROM PERSON")
+    
 
 connect.close()

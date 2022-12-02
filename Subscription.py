@@ -1,12 +1,12 @@
 from connection import *
 
 class Subscription:
-    def __init__(self, login, name, branch):
+    def __init__(self, login, name):
         self.login = login
         self.name = name
         self.status = True
-        self.branch_no = branch
-        createSubscription(login, name, self.status, branch)
+        self.branch_no = 1
+        createSubscription(login, name, self.status, self.branch_no)
         
     def getStatus(self):
         return self.status

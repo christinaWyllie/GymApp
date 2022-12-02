@@ -9,7 +9,6 @@ class Class:
         self.tssn = ssn
         self.t_email = email
         createClass(no, date, time, branch, ssn, id, email)
-        self.id = getClassID(no)
         
     def getDate(self):
         return self.date

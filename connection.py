@@ -13,103 +13,143 @@ except Error as e:
     print("Error occured while connecting.\n username, password or database name incorrect.\n")
 
 #create an new person in the Person table
-def createPerson(ssn, f, l, address, phone, email):
-    cursor.execute("INSERT INTO PERSON(ssn, fname, lname, address, phone_number, email)\
-        VALUES (%s, %s, %s, %s, %s, %s);", ssn, f, l, address, phone, email)
-    
-    connect.commit()
-    
+def createPerson(self, ssn, f, l, address, phone, email):
+        insert = "INSERT INTO PERSON(ssn, fname, lname, address, phone_number, email) VALUES (%s, %s, %s, %s, %s, %s)"
+        values =(ssn, f, l, address, int(phone), email)
+        self.cursor.execute(insert, values)
+        self.connect.commit()
+
 #delete an existing person
-def deletePerson(ssn):
-    cursor.execute("DELETE FROM PERSON WHERE ssn = %s;", ssn)
-    connect.commit()
+def deletePerson(self, ssn):
+    sql = "DELETE FROM PERSON WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 #update person's last name
-def updatePersonName(ssn, lname):
-    cursor.execute("UPDATE PERSON SET lname = %s WHERE ssn = %s;", lname, ssn)
-    connect.commit()
+def updatePersonName(self, ssn, lname):
+    sql = "UPDATE PERSON SET lname = %s WHERE ssn = %s;"
+    values = (lname, ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 #update person's phone number
-def updatePersonPhone(ssn, phone):
-    cursor.execute("UPDATE PERSON SET phone_number = %s WHERE ssn = %s;", phone, ssn)
-    connect.commit()
+def updatePersonPhone(self, ssn, phone):
+    sql = "UPDATE PERSON SET phone_number = %s WHERE ssn = %s;"
+    values = (phone, ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 #update person's email
-def updatePersonEmail(ssn, email):
-    cursor.execute("UPDATE PERSON SET email = %s WHERE ssn = %s;", email, ssn)    
-    connect.commit()
+def updatePersonEmail(self, ssn, email):
+    sql = "UPDATE PERSON SET email = %s WHERE ssn = %s;"
+    values = (email, ssn)
+    self.cursor.execute(sql, values)    
+    self.connect.commit()
     
 #update person's address
-def updatePersonAddress(ssn, address):
-    cursor.execute("UPDATE PERSON SET address = %s WHERE ssn = %s;", address, ssn)
-    connect.commit()
+def updatePersonAddress(self, ssn, address):
+    sql = "UPDATE PERSON SET address = %s WHERE ssn = %s;"
+    values = (address, ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
+
+
     
 #create a client 
-def createClient(ssn, id, email, phone, f, l, address):
-    cursor.execute("INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    cursor.commit()
+def createClient(self, ssn, id, email, phone, f, l, address):
+    sql = "INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s)"
+    values = (ssn, id, f, l, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 def addNewClient(self,ssn, fname, lname, address, phone, email, id):
-    cursor.execute("INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, fname, lname, address, phone, email)
-    connect.commit()
+    sql = "INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s)"
+    values = (ssn, id, fname, lname, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
 #remove a client
-def removeClient(ssn):
-    cursor.execute("DELETE FROM CLIENT WHERE ssn = %s;", ssn)
-    connect.commit()
+def removeClient(self, ssn):
+    sql = "DELETE FROM CLIENT WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql,values)
+    self.connect.commit()
 
-def removeAdmin(ssn):
-    cursor.execute("DELETE FROM ADMIN WHERE ssn = %s;", ssn)
-    connect.commit()
+def removeAdmin(self, ssn):
+    sql = "DELETE FROM ADMIN WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def createAdmin(ssn, id, email, phone, f, l, address):
-    cursor.execute("INSERT INTO ADMIN(assn, admin_id, admin_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    connect.commit()
+def createAdmin(self, ssn, id, email, phone, f, l, address):
+    sql = "INSERT INTO ADMIN(assn, admin_id, admin_email, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s);"
+    values = ssn, id, f, l, address, phone, email
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 def addNewAdmin(self,ssn, fname, lname, address, phone, email, id):
-    cursor.execute("INSERT INTO ADMIN(assn, admin_id, admin_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, fname, lname, address, phone, email)
-    connect.commit()
+    sql = "INSERT INTO ADMIN(assn, admin_id, admin_email, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s)"
+    values = (ssn, id, fname, lname, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def removeRUser(ssn):
-    cursor.execute("DELETE FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
-    connect.commit()
+def removeRUser(self, ssn):
+    sql = "DELETE FROM RESTRICTED_USER WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def createRUser(ssn, id, email, phone, f, l, address):
-    cursor.execute("INSERT INTO RESTRICTED_USER(assn, admin_id, admin_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    connect.commit()
+def createRUser(self, ssn, id, email, phone, f, l, address):
+    sql = "INSERT INTO RESTRICTED_USER(assn, admin_id, admin_email, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s)"
+    values = (ssn, id, f, l, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 def addNewUser(self,ssn, fname, lname, address, phone, email, id):
-    cursor.execute("INSERT INTO RESTRICTED_USER(rssn, r_user_id, r_user_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)",ssn, id, fname, lname, address, phone, email)
-    connect.commit()
+    sql = "INSERT INTO RESTRICTED_USER(rssn, r_user_id, r_user_email, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s)"
+    values = (ssn, id, fname, lname, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def createEmployee(ssn, id, email, phone, f, l, address):
-    cursor.execute("INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s)", ssn, id, f, l, address, phone, email)
-    connect.commit()
+def createEmployee(self, ssn, id, email, phone, f, l, address):
+    sql = "INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s)"
+    values = (ssn, id, f, l, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def addNewEmployee(ssn, fname, lname, address, phone, email, id):
-    cursor.execute("INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s);", ssn, id, fname, lname, address, phone, email)
-    connect.commit()
+def addNewEmployee(self, ssn, fname, lname, address, phone, email, id):
+    sql = "INSERT INTO EMPLOYEE(essn, e_user_id, e_email, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s);"
+    values = (ssn, id, fname, lname, address, phone, email)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def removeEmp(ssn):
-    cursor.execute("DELETE FROM EMPLOYEE WHERE ssn = %s;", ssn)
-    connect.commit()
+def removeEmp(self, ssn):
+    sql = "DELETE FROM EMPLOYEE WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createOwner(ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number):
-    cursor.execute("INSERT INTO OWNER(ossn, owner_id, owner_email, Branch_num, fname, lname, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number)
-    connect.commit()
+def createOwner(self, ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number):
+    sql = "INSERT INTO OWNER(ossn, owner_id, owner_email, Branch_num, fname, lname, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (ossn, owner_id, owner_email, Branch_num, f, l, address, phone_number)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def removeOwner(ossn):
-    cursor.execute("DELETE FROM OWNER WHERE ossn = %s;", ossn)
-    connect.commit()
+def removeOwner(self, ossn):
+    sql = "DELETE FROM OWNER WHERE ossn = %s;"
+    values = (ossn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
 def createAssociate(ssn, id, email, phone, f, l, address, branch):
     cursor.execute("INSERT INTO ASSOCIATE(sssn, s_user_id, s_email, fname, lname, address, phone_number, branch_no)\

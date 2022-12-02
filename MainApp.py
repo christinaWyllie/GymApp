@@ -13,7 +13,9 @@ from kivy.uix.popup import Popup
 from kivy.uix.tabbedpanel import TabbedPanel
 from kivy.uix.recycleview import RecycleView
 from kivy.uix.boxlayout import BoxLayout
+from Connection import Database
 
+db = Database()
 
 class RegForm(Screen):
     fname = ObjectProperty(None)
@@ -30,13 +32,14 @@ class RegForm(Screen):
         
         for field in fields:
             if (field.text == ""):
-                invalidReg("empty")
-                self.error = 1
-                return
+                self.invalidReg("empty")
+                return 1
 
         if (self.email.text.find("@") != -1 and self.email.text.find(".") != -1):
             if len(self.phone.text) == 10:
                 if len(self.ssn.text) == 9:
+                    db.createPerson(self.ssn.text, self.fname.text, self.lname.text, 
+                                         self.addr.text, self.phone.text, self.email.text)
                     print("Name: ", self.fname.text, self.lname.text)
                     print("Email: ", self.email.text)
                     print("Address: ", self.addr.text)
@@ -46,13 +49,13 @@ class RegForm(Screen):
                     self.reset()
                     return 0
                 else:
-                    invalidReg("ssn")
+                    self.invalidReg("ssn")
                     return 1
             else:
-                invalidReg("phone")
+                self.invalidReg("phone")
                 return 1
         else:
-            invalidReg("email")
+            self.invalidReg("email")
             return 1
     
     def reset(self):
@@ -64,27 +67,27 @@ class RegForm(Screen):
         self.ssn.text = ""
         self.passw.text = ""
 
-def invalidReg(type):
-    if (type == "empty"):
-        pop = Popup(title = "Error while creating account",
-                    content = Label(text="Please fill in all fields."),
-                    size_hint=(None,None), size=(400,400))
-        pop.open()
-    if (type == "email"):
-        pop = Popup(title = "Error while creating account",
-                    content = Label(text="Invalid email."),
-                    size_hint=(None,None), size=(400,400))
-        pop.open()
-    elif (type == "phone"):
-        pop = Popup(title = "Error while creating account",
-                    content = Label(text="Invalid phone number."),
-                    size_hint=(None,None), size=(400,400))
-        pop.open()
-    elif (type == "ssn"):
-        pop = Popup(title = "Error while creating account",
-                    content = Label(text="Invalid SSN."),
-                    size_hint=(None,None), size=(400,400))
-        pop.open()
+    def invalidReg(self,type):
+        if (type == "empty"):
+            pop = Popup(title = "Error while creating account",
+                        content = Label(text="Please fill in all fields."),
+                        size_hint=(None,None), size=(400,200))
+            pop.open()
+        if (type == "email"):
+            pop = Popup(title = "Error while creating account",
+                        content = Label(text="Invalid email."),
+                        size_hint=(None,None), size=(400,200))
+            pop.open()
+        elif (type == "phone"):
+            pop = Popup(title = "Error while creating account",
+                        content = Label(text="Invalid phone number."),
+                        size_hint=(None,None), size=(400,200))
+            pop.open()
+        elif (type == "ssn"):
+            pop = Popup(title = "Error while creating account",
+                        content = Label(text="Invalid SSN."),
+                        size_hint=(None,None), size=(400,200))
+            pop.open()
 
 
 class LoginForm(Screen):
@@ -96,8 +99,30 @@ class LoginForm(Screen):
         #Possible SQL query
         print("Email:", self.email.text)
         print("Password:", self.passw.text)
-        self.email.text = ""
-        self.passw.text = ""
+
+        if (self.email.text == "" or self.passw.text == ""):
+            self.invalidLogin("empty")
+            return 1
+        elif (self.email.text.find("@") == -1 or self.email.text.find(".") == -1 ):
+            self.invalidLogin("email")
+            return 1
+        else:
+            self.email.text = ""
+            self.passw.text = ""
+            return 0
+
+    def invalidLogin(self,type):
+        if (type == "empty"):
+            pop = Popup(title = "Error while logging in",
+                    content = Label(text="Please fill in all fields."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+        elif (type == "email"):
+            pop = Popup(title = "Error while logging in",
+                    content = Label(text="Invalid email."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+
 
 class FourFieldLine(BoxLayout):
     pass
@@ -108,36 +133,46 @@ class FiveFieldLine(BoxLayout):
 
 class ClientHomepage(Screen):
 
-        tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
+    tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
 
-        # tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
-        #          {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
-        #          {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
-        #          {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
-        #         ]
+    # tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
+    #          {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
+    #          {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
+    #          {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
+    #         ]
 
-        # tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
-        #          {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
-        #          {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
-        #          {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
-        #         ]
+    # tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
+    #          {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
+    #          {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
+    #          {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
+    #         ]
 
-        def __init__(self, **kwargs):
-            super(ClientHomepage, self).__init__(**kwargs)
+    def __init__(self, **kwargs):
+        super(ClientHomepage, self).__init__(**kwargs)
 
-            self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
-            # self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
+        self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
+        # self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
 
-        pass
+    pass
 
-        def getClasses(self):
-            headers = ["date","time","branchno","email","tname"]
-            result = [dict(zip(headers, data)) for data in self.tempClass]
-            return result
+    def getClasses(self):
+        headers = ["date","time","branchno","email","tname"]
+        result = [dict(zip(headers, data)) for data in self.tempClass]
+        return result
 
 
 class EmpHomepage(Screen):
-    pass
+    tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
+    pass 
+
+    def __init__(self, **kwargs):
+        super(EmpHomepage, self).__init__(**kwargs)
+        self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
+
+    def getClasses(self):
+            headers = ["date","time","branchno","email","tname"]
+            result = [dict(zip(headers, data)) for data in self.tempClass]
+            return result
 
 
 Builder.load_file("pagemanager.kv")
@@ -146,6 +181,7 @@ sm = ScreenManager()
 sm.add_widget(LoginForm(name="login"))
 sm.add_widget(RegForm(name="registration"))
 sm.add_widget(ClientHomepage(name="chomepage"))
+sm.add_widget(EmpHomepage(name="ehomepage"))
 
 class MainApp(App):
     def build(self):
@@ -153,3 +189,4 @@ class MainApp(App):
 
 if __name__ == "__main__":
     MainApp().run()
+    db.close()

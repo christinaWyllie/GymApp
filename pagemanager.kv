@@ -2,11 +2,11 @@
 
 #https://stackoverflow.com/questions/55759082/how-to-write-popup-in-kv-file-when-one-press-button
 
-<EmailPopup@Popup>:
-    title: "Email Popup"
-    size_hint: (None, None)
-    size: (400,200)
-    auto_dismiss: False
+# <TestPopup@Popup>:
+#     title: "Email Popup"
+#     size_hint: (None, None)
+#     size: (400,200)
+#     auto_dismiss: False
 
 <EmailPopup@Popup>:
     title: "Email Popup"
@@ -70,14 +70,15 @@
     Label:
         text: root.label_5
 
-<ClientHomepage>:
+
+<EmpHomepage>:
     classes: classes # expose the widget
     equipment: equipment
 
     TabbedPanel:
         size_hint: 1, 0.9
         pos_hint: {'x': 0, 'top':0.9}
-        tab_width: root.width / 3
+        tab_width: root.width / 6
         do_default_tab: False
         TabbedPanelItem:
             text: "Account Info"
@@ -122,7 +123,7 @@
                     font_size: (root.width**2 + root.height**2) / 15**4
                     pos_hint: {"center_x":0.5,"center_y":0.1}
                     size_hint: 0.35, 0.1
-                    on_release: Factory.TestPopup().open()
+                    on_release: Factory.EmailPopup().open()
 
         
         TabbedPanelItem:
@@ -158,9 +159,12 @@
                             height: self.minimum_height
                             orientation: 'vertical'
 
-        
+        TabbedPanelItem:
+            text: "See Supply Status"
+
         TabbedPanelItem:
             text: "See Equipment Status"
+            font_size: dp(13)
             GridLayout:
                 cols: 1
                 rows: 2
@@ -183,6 +187,108 @@
                     RecycleView:
                         id: equipment
                         viewclass: 'FourFieldLine'
+                        RecycleBoxLayout:
+                            default_size: None, dp(56)
+                            default_size_hint: 1, None
+                            size_hint_y: None
+                            height: self.minimum_height
+                            orientation: 'vertical'
+            
+        TabbedPanelItem:
+            text: "See Room Status"
+
+        TabbedPanelItem:
+            text: "See Schedule"
+
+    Button:
+        text: "Logout"
+        font_size: (root.width**2 + root.height**2) / 15**4
+        pos_hint: {"x":0.002,"top":1}
+        size_hint: 0.15, 0.1
+        on_release: 
+            app.root.current = "login"
+            root.manager.transition.direction = "up"
+
+<ClientHomepage>:
+    classes: classes # expose the widget
+
+    TabbedPanel:
+        size_hint: 1, 0.9
+        pos_hint: {'x': 0, 'top':0.9}
+        tab_width: root.width / 2
+        do_default_tab: False
+        TabbedPanelItem:
+            text: "Account Info"
+            FloatLayout:
+                GridLayout:
+                    pos_hint: {"center_x":0.5,"center_y":0.65}
+                    cols: 3
+                    rows: 1
+                    size_hint_y: 0.6
+                    padding: [0,0]
+                    GridLayout:
+                        cols: 1
+                        rows: 4
+                        size_hint_y: 0.5
+                        size_hint_x: 0.3
+                        
+                        Label:
+                            text: "Name:"
+                        Label:
+                            text: "Email:"
+                        Label:
+                            text: "Phone:"
+                        Label:
+                            text: "Home Address:"
+                    GridLayout:
+                        cols: 1
+                        rows: 4
+                        # size_hint_y: 0.5
+                        # size_hint_x: 0.3
+
+                        Label:
+                            text: "FirstName LastName"
+                        Label:
+                            text: "Email@email.com"
+                        Label:
+                            text: "111111111"
+                        Label:
+                            text: "HomeAddressGoesHere"
+                Button:
+                    text: "Cancel Membership (Debug)"
+                    # background_color: (0.1, 0.1, 0.1, 1)
+                    font_size: (root.width**2 + root.height**2) / 15**4
+                    pos_hint: {"center_x":0.5,"center_y":0.1}
+                    size_hint: 0.35, 0.1
+                    on_release: Factory.EmailPopup().open()
+
+        
+        TabbedPanelItem:
+            text: "See Classes"
+            GridLayout:
+                cols: 1
+                rows: 2
+                GridLayout:
+                    cols: 5
+                    rows: 1
+                    size_hint_y: 0.04
+                    Label:
+                        text: "Date"
+                    Label:
+                        text: "Time"
+                    Label:
+                        text: "Branch No."
+                    Label:
+                        text: "Trainer E-mail"
+                    Label:
+                        text: "Trainer Name"
+                GridLayout:
+                    cols: 1
+                    rows: 1
+                    size_hint_y: 0.96
+                    RecycleView:
+                        id: classes
+                        viewclass: 'FiveFieldLine'
                         RecycleBoxLayout:
                             default_size: None, dp(56)
                             default_size_hint: 1, None
@@ -254,9 +360,9 @@
             pos_hint: {"x":0.2,"y":0.05}
             size_hint: 0.6, 0.2
             on_release: 
-                app.root.current = "chomepage"
-                root.manager.transition.direction = "down"
-                root.submit()
+                if (root.submit() == 0): \
+                app.root.current = "ehomepage"; \
+                root.manager.transition.direction = "down" 
 
 
 <RegForm>:
@@ -387,4 +493,3 @@
                 if (root.submit() == 0): \
                 app.root.current = "login"; \
                 root.manager.transition.direction = "right" 
-                else: root.error = 0

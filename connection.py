@@ -151,28 +151,38 @@ def removeOwner(self, ossn):
     self.cursor.execute(sql, values)
     self.connect.commit()
     
-def createAssociate(ssn, id, email, phone, f, l, address, branch):
-    cursor.execute("INSERT INTO ASSOCIATE(sssn, s_user_id, s_email, fname, lname, address, phone_number, branch_no)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
-    connect.commit()
+def createAssociate(self, ssn, id, email, phone, f, l, address, branch):
+    sql = "INSERT INTO ASSOCIATE(sssn, s_user_id, s_email, fname, lname, address, phone_number, branch_no)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s);"
+    values = (ssn, id, f, l, address, phone, email, branch)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def deleteAssociate(ssn):
-    cursor.execute("DELETE FROM ASSOCIATE WHERE ssn = %s;", ssn)
-    connect.commit()
+def deleteAssociate(self, ssn):
+    sql = "DELETE FROM ASSOCIATE WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
     
-def createManager(mssn, m_id, m_email, branch_no, f, l, address, phone_number):
-    cursor.execute("INSERT INTO MANAGER(mssn, m_id, m_email, branch_no, f, l, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)", mssn, m_id, m_email, branch_no, f, l, address, phone_number)
-    connect.commit()
+def createManager(self, mssn, m_id, m_email, branch_no, f, l, address, phone_number):
+    sql = "INSERT INTO MANAGER(mssn, m_id, m_email, branch_no, f, l, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (mssn, m_id, m_email, branch_no, f, l, address, phone_number)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createTrainer(ssn, id, email, phone, f, l, address, branch):
-    cursor.execute("INSERT INTO TRAINER(tssn, t_user_id, t_email, fname, lname, address, phone_number, branch_no)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s);",ssn, id, f, l, address, phone, email, branch)
-    connect.commit()
+def createTrainer(self, ssn, id, email, phone, f, l, address, branch):
+    sql = "INSERT INTO TRAINER(tssn, t_user_id, t_email, fname, lname, address, phone_number, branch_no)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s);"
+    values = (ssn, id, f, l, address, phone, email, branch)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def deleteTrainer(ssn):
-    cursor.execute("DELETE FROM TRAINER WHERE ssn = %s;", ssn)
-    connect.commit()
+def deleteTrainer(self, ssn):
+    sql = "DELETE FROM TRAINER WHERE ssn = %s;"
+    values = (ssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
 def addClassToTrainer(class_no, tssn):
     cursor.execute("UPDATE TRAINER SET class_no = %s WHERE tssn = %s;", class_no, tssn)

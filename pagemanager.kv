@@ -480,10 +480,11 @@
             pos_hint: {"x":0.2,"y":0.05}
             size_hint: 0.6, 0.2
             on_release: 
-                if (root.submit() == "client"): \
+                root.submit()
+                if (root.userType == "client"): \
                 app.root.current = "chomepage"; \
                 root.manager.transition.direction = "down" 
-                elif (root.submit() == "employee"): \
+                elif (root.userType == "ruser"): \
                 app.root.current = "ehomepage"; \
                 root.manager.transition.direction = "down" 
 

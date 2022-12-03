@@ -50,7 +50,7 @@ class Database:
         self.cursor.execute("Select * FROM PERSON WHERE email = %s GROUP BY email", (email,))
         results = self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
-            print(results)
+            # print(results)
             try:
                 insert = "INSERT INTO CLIENT (cssn, fname, lname, address, client_pass, phone_number, client_email) VALUES (%s, %s, %s, %s, %s, %s, %s)"
                 values = results[0]
@@ -63,11 +63,53 @@ class Database:
         else:
             return -1
 
+    def createRUser(self, email):
+        results = self.getPerson(email)
+        if (self.cursor.rowcount > 0):
+            try:
+                sql = "INSERT INTO RESTRICTED_USER(rssn, fname, lname, address, r_pass, phone_number, r_email)\
+                                VALUES(%s, %s, %s, %s, %s, %s, %s)"
+                values = results[0]
+                self.cursor.execute(sql, values)
+                self.connect.commit()
+                return 0
+            except Error as E:
+                print("Error occured while inserting into Restricted_User.")
+                return -1
+        else:
+            return -1
+
+
+    def getPerson(self, email):
+        self.cursor.execute("Select * FROM PERSON WHERE email = %s GROUP BY email", (email,))
+        results = self.cursor.fetchall()
+        return results
+
+        # def createEmployee(self, email):
+        #     self.cursor.execute("SELECT * FROM PERSON WHERE email = %s GROUP by email", (email,))
+        #     results = self.cursor.fetchall()
+        #     if (self.cursor.rowcount > 0):
+        #         try:
+        #             sql = "INSERT INTO EMPLOYEE(essn, fname, lname, address, e_pass, phone_number, e_email, branch_no)\
+        #                     VALUES(%s, %s, %s, %s, %s, %s, %s, %s)"
+        #             values = results[0]
+        #             self.cursor.execute(sql, values)
+        #             self.connect.commit()
+        #         except Error as E:
+        #             print("Error has occured while inserting into client.")
+        #             return -1
+        #     else:
+        #         return -1
+
     def checkUserType(self, email):
         self.cursor.execute("Select * FROM CLIENT WHERE client_email = %s GROUP BY client_email", (email,))
         self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
             return "client"
+        self.cursor.execute("Select * FROM RESTRICTED_USER WHERE r_email = %s GROUP BY r_email", (email,))
+        self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return "ruser"
         self.cursor.execute("Select * FROM EMPLOYEE WHERE e_email = %s GROUP BY e_email", (email,))
         self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
@@ -82,27 +124,26 @@ class Database:
             return "owner"
         return "person"
         
-        
 
-    # def getInfoFromEmail(self,email):
-    #     self.cursor.execute("SELECT fname, lname, email, phone_number, address FROM PERSON WHERE email = %s GROUP BY email", (email,))
-    #     results = self.cursor.fetchall()
-    #     if (self.cursor.rowcount > 0):
-    #         return results
+    def getInfoFromEmail(self,email):
+        self.cursor.execute("SELECT fname, lname, email, phone_number, address FROM PERSON WHERE email = %s GROUP BY email", (email,))
+        results = self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return results
     
     # https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
-    # def getClasses(self):
-    #     self.cursor.execute("SELECT * FROM CLASS;")
-    #     data = self.cursor.fetchall()
-    #     # print(data)
-    #     classArray = []
-    #     for row in data:
-    #         new = []
-    #         for index in row:
-    #             new.append(index)
+    def getClasses(self):
+        self.cursor.execute("SELECT * FROM CLASS;")
+        data = self.cursor.fetchall()
+        # print(data)
+        classArray = []
+        for row in data:
+            new = []
+            for index in row:
+                new.append(index)
                 
-    #         classArray.append(new)
-    #     return classArray
+            classArray.append(new)
+        return classArray
 
 #     #delete an existing person
 #     def deletePerson(ssn):

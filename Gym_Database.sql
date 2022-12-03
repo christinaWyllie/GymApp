@@ -13,7 +13,9 @@ pass VARCHAR(30),
 phone_number VARCHAR(30) NOT NULL,
 email VARCHAR(25) NOT NULL,
 primary key (ssn), 
-UNIQUE (email)
+UNIQUE (email), 
+ON UPDATE CASCADE,
+ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS ADMIN;
@@ -28,7 +30,11 @@ admin_pass VARCHAR(30),
 phone_number VARCHAR(30) NOT NULL,
 PRIMARY KEY (admin_id),
 FOREIGN KEY (assn) REFERENCES PERSON(ssn),
-FOREIGN KEY (admin_email) REFERENCES PERSON(email) 
+FOREIGN KEY (admin_email) REFERENCES PERSON(email), 
+UNIQUE (assn), 
+UNIQUE (admin_email), 
+ON UPDATE CASCADE,
+ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS OWNER;
@@ -44,7 +50,9 @@ address VARCHAR(30),
 phone_number VARCHAR(30) NOT NULL,
 PRIMARY KEY (owner_id),
 FOREIGN KEY (ossn) REFERENCES ADMIN(assn),
-FOREIGN KEY (owner_email) REFERENCES ADMIN(admin_email) 
+FOREIGN KEY (owner_email) REFERENCES ADMIN(admin_email), 
+UNIQUE (ossn), 
+UNIQUE (owner_email),
 );
 
 DROP TABLE IF EXISTS MANAGER;
@@ -60,7 +68,9 @@ address VARCHAR(30),
 m_pass VARCHAR(30),
 phone_number VARCHAR(30) NOT NULL,
 FOREIGN KEY (mssn) REFERENCES ADMIN(assn),
-FOREIGN KEY (m_email) REFERENCES ADMIN(admin_email) 
+FOREIGN KEY (m_email) REFERENCES ADMIN(admin_email), 
+UNIQUE (mssn), 
+UNIQUE (m_email), 
 );
 
 DROP TABLE IF EXISTS CLIENT;
@@ -75,7 +85,11 @@ address VARCHAR(30),
 phone_number VARCHAR(30) NOT NULL,
 PRIMARY KEY (client_id),
 FOREIGN KEY (cssn) REFERENCES PERSON(ssn),
-FOREIGN KEY (client_email) REFERENCES PERSON(email) 
+FOREIGN KEY (client_email) REFERENCES PERSON(email), 
+UNIQUE (cssn), 
+UNIQUE (client_email), 
+ON UPDATE CASCADE,
+ON DELETE CASCADE 
 );
 
 DROP TABLE IF EXISTS MEMBER;
@@ -94,7 +108,9 @@ phone_number VARCHAR(30) NOT NULL,
 PRIMARY KEY (membership_id),
 FOREIGN KEY (mssn) REFERENCES CLIENT(cssn),
 FOREIGN KEY (client_id) REFERENCES CLIENT(client_id),
-FOREIGN KEY (member_email) REFERENCES CLIENT(client_email) 
+FOREIGN KEY (member_email) REFERENCES CLIENT(client_email), 
+UNIQUE (mssn), 
+UNIQUE (member_email) 
 );
 
 DROP TABLE IF EXISTS RESTRICTED_USER;
@@ -109,7 +125,11 @@ r_pass VARCHAR(30),
 phone_number VARCHAR(30) NOT NULL,
 PRIMARY KEY (r_user_id),
 FOREIGN KEY (rssn) REFERENCES PERSON(ssn),
-FOREIGN KEY (r_email) REFERENCES PERSON(email) 
+FOREIGN KEY (r_email) REFERENCES PERSON(email), 
+UNIQUE (rssn), 
+UNIQUE (r_email), 
+ON UPDATE CASCADE,
+ON DELETE CASCADE 
 );
 
 DROP TABLE IF EXISTS EMPLOYEE;
@@ -126,7 +146,11 @@ branch_no int NOT NULL,
 PRIMARY KEY (e_user_id),
 FOREIGN KEY (e_user_id) REFERENCES RESTRICTED_USER(r_user_id),
 FOREIGN KEY (essn) REFERENCES RESTRICTED_USER(rssn),
-FOREIGN KEY (e_email) REFERENCES RESTRICTED_USER(r_email) 
+FOREIGN KEY (e_email) REFERENCES RESTRICTED_USER(r_email), 
+UNIQUE (essn), 
+UNIQUE (e_email), 
+ON UPDATE CASCADE,
+ON DELETE CASCADE 
 );
 
 DROP TABLE IF EXISTS ASSOCIATE;
@@ -143,7 +167,10 @@ branch_no int NOT NULL,
 PRIMARY KEY (s_user_id),
 FOREIGN KEY (s_user_id) REFERENCES EMPLOYEE(e_user_id),
 FOREIGN KEY (sssn) REFERENCES EMPLOYEE(essn),
-FOREIGN KEY (s_email) REFERENCES EMPLOYEE(e_email) );
+FOREIGN KEY (s_email) REFERENCES EMPLOYEE(e_email), 
+UNIQUE (sssn), 
+UNIQUE (s_email)
+);
 
 DROP TABLE IF EXISTS TRAINER;
 CREATE TABLE TRAINER(
@@ -159,7 +186,10 @@ branch_no int NOT NULL,
 PRIMARY KEY (t_user_id),
 FOREIGN KEY (t_user_id) REFERENCES EMPLOYEE(e_user_id),
 FOREIGN KEY (tssn) REFERENCES EMPLOYEE(essn),
-FOREIGN KEY (t_email) REFERENCES EMPLOYEE(e_email) );
+FOREIGN KEY (t_email) REFERENCES EMPLOYEE(e_email), 
+UNIQUE (tssn), 
+UNIQUE (t_email)
+);
 
 DROP TABLE IF EXISTS CLASS;
 CREATE TABLE CLASS (
@@ -171,7 +201,8 @@ t_id INT NOT NULL,
 t_email VARCHAR(25)NOT NULL,
 tssn INT NOT NULL,
 PRIMARY KEY(class_no),
-FOREIGN KEY(t_id) REFERENCES TRAINER(t_user_id) );
+FOREIGN KEY(t_id) REFERENCES TRAINER(t_user_id)
+);
 
 DROP TABLE IF EXISTS TRAINER_CLASS;
 CREATE TABLE TRAINER_CLASS(

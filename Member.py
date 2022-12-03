@@ -2,7 +2,7 @@ from connection import *
 from Client import *
 
 class Member(Client):
-    def __init__(self, ssn, email, phone, f, l, address, memberID, type, status):
+    def __init__(self, ssn, email, phone, f, l, address, memberID, status):
         self.ssn = ssn
         self.fname = f
         self.lname = l
@@ -10,13 +10,10 @@ class Member(Client):
         self.phone = phone
         self.email = email
         self.memberID = memberID
-        self.type = type
         self.status = status
-        createMember(ssn, id, email, phone, f, l, address,memberID, type, status)
+        createMember(ssn, id, email, phone, f, l, address,memberID, status)
         self.id = getMemberID(ssn)
         
-    def getType(self, memberID):
-        return self.type
         
     def getStatus(self, memberID):
         return self.status
@@ -25,6 +22,3 @@ class Member(Client):
         self.status = stat
         updateMemberStatus(memberID, stat)
         
-    def setType(self, id, type):
-        self.type = type
-        updateMemberType(id, type)

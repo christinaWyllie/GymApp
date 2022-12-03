@@ -203,12 +203,6 @@ def updateMemberStatus(self, membership_id, status):
     self.cursor.execute(sql, values)
     self.connect.commit()
 
-def updateMemberType(self, membership_id, type):
-    sql = "UPDATE MEMBER SET type = %s WHERE membership_id = %s;"
-    values = (type, membership_id)
-    self.cursor.execute(sql, values)
-    self.connect.commit()
-
 def updateScheduleAvail(self, day, r_user_id):
     sql = "UPDATE WEEKLY_SCHEDULE_AVAIL SET day = %s WHERE r_user_id = %s;"
     values = (day,r_user_id)

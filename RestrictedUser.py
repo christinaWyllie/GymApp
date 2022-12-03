@@ -44,3 +44,7 @@ class RestrictedUser(Person):
         values = (password, username)
         cursor.execute(query, values)
         connect.commit()
+        
+    def getEmployees():
+        cursor.execute("SELECT fname, lname FROM EMPLOYEE")
+        return cursor.fetchall()

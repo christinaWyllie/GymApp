@@ -9,16 +9,18 @@ class Admin(Person):
         self.address = address
         self.phone = phone
         self.email = email
-        createAdmin(ssn, id, email, phone, f, l, address)
+        createAdmin(ssn, email, phone, f, l, address)
         self.id = getAdminID(ssn)
-        
+    
+    #get the ssn for the admin
     def getAdmin(self):
         return self.ssn
 
+    #add a new 
     def addAdmin(self, person):
-        self.id = getAdminID(self.person.ssn)
         addNewAdmin(person.ssn, person.fname, person.lname, person.address,
                     person.phone, person.email, self.id)
+        self.id = getAdminID(person.ssn)
         
     def removeA(self, ssn):
         removeAdmin(ssn)

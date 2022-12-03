@@ -94,36 +94,45 @@ class RegForm(Screen):
 class LoginForm(Screen):
     email = ObjectProperty(None)
     passw = ObjectProperty(None)
+    userType = None
     pass
 
     def submit(self):
         # print("Email:", self.email.text)
         # print("Password:", self.passw.text)
-
         # return 0
+
+        # db.createClient("testclient@gmail.com")
 
         if (self.email.text == "" or self.passw.text == ""):
             self.invalidLogin("empty")
+            self.userType = None
             return -1
         elif (self.email.text.find("@") == -1 or self.email.text.find(".") == -1 ):
             self.invalidLogin("email")
+            self.userType = None
             return -1
         else:
             if (not db.validateLogin(self.email.text, self.passw.text)):
                 print("LOGIN FAILED")
                 self.invalidLogin("invalid")
+                self.userType = None
                 return -1
             else:
-                userType = db.checkUserType(self.email.text)
-                if (userType == "person"):
+                usertype = db.checkUserType(self.email.text)
+                if (usertype == "person"):
                     self.invalidLogin("person")
+                    self.userType = "person"
+                    return -1
                 else:
                     print("SUCCESS LOGIN")
                     global loggedInEmail
                     loggedInEmail = self.email.text
                     self.email.text = ""
                     self.passw.text = ""
-                return (userType)
+                    self.userType = usertype
+                    return 0
+
 
     def invalidLogin(self,type):
         if (type == "empty"):

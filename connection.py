@@ -301,36 +301,36 @@ def updateSubscriptionStatus(self, status, login_id, branch_no):
     self.connect.commit()
 
 #getters for the id's for all the different types of people
-def getRUserID(email):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", email)
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
 
-def getManagerID(email):
-    cursor.execute("SELECT mssn FROM MANAGER WHERE ssn = %s;", email)
+def getManagerID(ssn):
+    cursor.execute("SELECT mssn FROM MANAGER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getRUserID(email):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", email)
+def getRUserID(ssn):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getEmployeeID(email):
-    cursor.execute("SELECT essn FROM EMPLOYEE WHERE ssn = %s;", email)
+def getEmployeeID(ssn):
+    cursor.execute("SELECT essn FROM EMPLOYEE WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getClientID(email):
-    cursor.execute("SELECT cssn FROM CLIENT WHERE ssn = %s;", email)
+def getClientID(ssn):
+    cursor.execute("SELECT cssn FROM CLIENT WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getAdminID(email):
-    cursor.execute("SELECT assn FROM ADMIN WHERE ssn = %s;", email)
+def getAdminID(ssn):
+    cursor.execute("SELECT assn FROM ADMIN WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getAssociateID(email):
-    cursor.execute("SELECT sssn FROM ASSOCIATE WHERE ssn = %s;", email)
+def getAssociateID(ssn):
+    cursor.execute("SELECT sssn FROM ASSOCIATE WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getTrainerID(email):
-    cursor.execute("SELECT tssn FROM TRAINER WHERE ssn = %s;", email)
+def getTrainerID(ssn):
+    cursor.execute("SELECT tssn FROM TRAINER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getMemberID(email):
-    cursor.execute("SELECT mssn FROM MEMBER WHERE ssn = %s;", email)
+def getMemberID(ssn):
+    cursor.execute("SELECT mssn FROM MEMBER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
-def getOwnerID(email):
-    cursor.execute("SELECT ossn FROM OWNER WHERE ssn = %s;", email)
+def getOwnerID(ssn):
+    cursor.execute("SELECT ossn FROM OWNER WHERE ssn = %s;", ssn)
     return cursor.fetchall()
 
 #https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/

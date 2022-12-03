@@ -184,115 +184,153 @@ def deleteTrainer(self, ssn):
     self.cursor.execute(sql, values)
     self.connect.commit()
 
-def addClassToTrainer(class_no, tssn):
-    cursor.execute("UPDATE TRAINER SET class_no = %s WHERE tssn = %s;", class_no, tssn)
-    connect.commit()
+def addClassToTrainer(self, class_no, tssn):
+    sql = "UPDATE TRAINER SET class_no = %s WHERE tssn = %s;"
+    values = (class_no, tssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createMember(mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number):
-    cursor.execute("INSERT INTO MEMBER(mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number)\
-                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)", mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number)
-    connect.commit()
+def createMember(self, mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number):
+    sql = "INSERT INTO MEMBER(mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number)\
+                    VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+    values = (mssn, client_id, membership_id, member_email, type, status, f, l, address, phone_number)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateMemberStatus(membership_id, status):
-    cursor.execute("UPDATE MEMBER SET status = %s WHERE membership_id = %s;", status, membership_id)
-    connect.commit()
+def updateMemberStatus(self, membership_id, status):
+    sql = "UPDATE MEMBER SET status = %s WHERE membership_id = %s;"
+    values = (status, membership_id)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateMemberType(membership_id, type):
-    cursor.execute("UPDATE MEMBER SET type = %s WHERE membership_id = %s;", type, membership_id)
-    connect.commit()
+def updateMemberType(self, membership_id, type):
+    sql = "UPDATE MEMBER SET type = %s WHERE membership_id = %s;"
+    values = (type, membership_id)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateScheduleAvail(day, r_user_id):
-    cursor.execute("UPDATE WEEKLY_SCHEDULE_AVAIL SET day = %s WHERE r_user_id = %s;", day,r_user_id)
-    connect.commit()
+def updateScheduleAvail(self, day, r_user_id):
+    sql = "UPDATE WEEKLY_SCHEDULE_AVAIL SET day = %s WHERE r_user_id = %s;"
+    values = (day,r_user_id)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createClass(class_no, date, time, branch_no, t_id, t_email, tssn):
-    cursor.execute("INSERT INTO CLASS(class_no, date, time, branch_no, t_id, t_email, tssn) VALUES(%s, %s, %s, %s, %s, %s, %s);", class_no, date, time, branch_no, t_id, t_email, tssn)
-    connect.commit()
+def createClass(self, class_no, date, time, branch_no, t_id, t_email, tssn):
+    sql = "INSERT INTO CLASS(class_no, date, time, branch_no, t_id, t_email, tssn) VALUES(%s, %s, %s, %s, %s, %s, %s);"
+    values = (class_no, date, time, branch_no, t_id, t_email, tssn)    
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateClassDate(date, class_no):
-    cursor.execute("UPDATE CLASS SET date = %s WHERE class_no = %s;", date, class_no)
-    connect.commit()
+def updateClassDate(self, date, class_no):
+    sql = "UPDATE CLASS SET date = %s WHERE class_no = %s;"
+    values = (date, class_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateClassTime(time, class_no):
-    cursor.execute("UPDATE CLASS SET time = %s WHERE class_no = %s;",time, class_no)
-    connect.commit()
+def updateClassTime(self, time, class_no):
+    sql = "UPDATE CLASS SET time = %s WHERE class_no = %s;"
+    values = (time, class_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateClassInstructor(tssn, t_id, t_email, class_no):
-    cursor.execute("UPDATE CLASS SET tssn = %s, t_id = %s, t_email = %s WHERE class_no = %s;", tssn, t_id, t_email, class_no)
-    connect.commit()
+def updateClassInstructor(self, tssn, t_id, t_email, class_no):
+    sql = "UPDATE CLASS SET tssn = %s, t_id = %s, t_email = %s WHERE class_no = %s;"
+    values = (tssn, t_id, t_email, class_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createRoom(room_id, date, duration):
-    cursor.execute("INSERT INTO ROOM(room_id, date, duration) VALUES(%s, %s, %s);", room_id, date, duration)
-    connect.commit()
+def createRoom(self, room_id, date, duration):
+    sql = "INSERT INTO ROOM(room_id, date, duration) VALUES(%s, %s, %s);"
+    values = (room_id, date, duration)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def cancelBooking(room_id, date, duration):
-    cursor.execute("DELETE FROM ROOMS WHERE room_id = %s, date = %s, duration = %s;",room_id, date, duration )
-    connect.commit()
+def cancelBooking(self, room_id, date, duration):
+    sql = "DELETE FROM ROOMS WHERE room_id = %s, date = %s, duration = %s;"
+    values = (room_id, date, duration)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateEquipCond(condition, equipment_no, branch_no):
-    cursor.execute("UPDATE EQUIPTMENT SET condition = %s WHERE equipment_no = %s AND branch_no = %s;", condition, equipment_no, branch_no)
-    connect.commit()
+def updateEquipCond(self, condition, equipment_no, branch_no):
+    sql = "UPDATE EQUIPTMENT SET condition = %s WHERE equipment_no = %s AND branch_no = %s;"
+    values = (condition, equipment_no, branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createEquip(equipment_no, amount, condition, duration, branch_no):
-    cursor.execute("INSERT INTO EQUIPMENT(equipment_no, amount, condition, duration, branch_no) VALUES(%s, %s, %s, %s, %s);", equipment_no, amount, condition, duration, branch_no)
-    connect.commit()
+def createEquip(self, equipment_no, amount, condition, duration, branch_no):
+    sql = "INSERT INTO EQUIPMENT(equipment_no, amount, condition, duration, branch_no) VALUES(%s, %s, %s, %s, %s);"
+    values = (equipment_no, amount, condition, duration, branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateEquipAmount(amount, equipment_no, branch_no):
-    cursor.execute("UPDATE EQUIPMENT SET amount = %s WHERE equipment_no = %s AND branch_no = %s;", amount, equipment_no, branch_no)
-    connect.commit()
+def updateEquipAmount(self, amount, equipment_no, branch_no):
+    sql = "UPDATE EQUIPMENT SET amount = %s WHERE equipment_no = %s AND branch_no = %s;"
+    values = (amount, equipment_no, branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createSupply(sname, supply_no, stock, branch_no):
-    cursor.execute("INSERT INTO SUPPLY(sname, supply_no, stock, branch_no) VALUES(%s, %s, %s, %s);", sname, supply_no, stock, branch_no)
-    connect.commit()
+def createSupply(self, sname, supply_no, stock, branch_no):
+    sql = "INSERT INTO SUPPLY(sname, supply_no, stock, branch_no) VALUES(%s, %s, %s, %s);"
+    values = (sname, supply_no, stock, branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateSupplyStock(stock, supply_no, branch_no):
-    cursor.execute("UPDATE SUPPLIES SET stock = %s WHERE supply_no = %s AND branch_no = %s;", stock, supply_no, branch_no)
-    connect.commit()
+def updateSupplyStock(self, stock, supply_no, branch_no):
+    sql = "UPDATE SUPPLIES SET stock = %s WHERE supply_no = %s AND branch_no = %s;"
+    values = (stock, supply_no, branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def createGym(branch_no, location, o_ssn, mssn):
-    cursor.execute("INSERT INTO SUBSCRIPTION(branch_no, location, o_ssn, mssn) VALUES(%s, %s, %s, %s);", branch_no, location, o_ssn, mssn)
-    connect.commit()
+def createGym(self, branch_no, location, o_ssn, mssn):
+    sql = "INSERT INTO SUBSCRIPTION(branch_no, location, o_ssn, mssn) VALUES(%s, %s, %s, %s);"
+    values = (branch_no, location, o_ssn, mssn)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
 #create new subscription
-def createSubscription(login_id, name,status,branch_no):
-    cursor.execute("INSERT INTO SUBSCRIPTION(login_id, name, status, branch_no) VALUES (%s, %s, %s, %s);",login_id, name,status,branch_no)
-    connect.commit()
+def createSubscription(self, login_id, name,status,branch_no):
+    sql = "INSERT INTO SUBSCRIPTION(login_id, name, status, branch_no) VALUES (%s, %s, %s, %s);"
+    values = (login_id, name,status,branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
-def updateSubscriptionStatus(status, login_id, branch_no):
-    cursor.execute("UPDATE SUBSCRIPTION SET status = %s WHERE login_id = %s AND branch_no = %s;", status, login_id, branch_no)
-    connect.commit()
+def updateSubscriptionStatus(self, status, login_id, branch_no):
+    sql = "UPDATE SUBSCRIPTION SET status = %s WHERE login_id = %s AND branch_no = %s;"
+    values = (status, login_id, branch_no)
+    self.cursor.execute(sql, values)
+    self.connect.commit()
 
 #getters for the id's for all the different types of people
-def getRUserID(ssn):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+def getRUserID(email):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", email)
     return cursor.fetchall()
 
-def getManagerID(ssn):
-    cursor.execute("SELECT mssn FROM MANAGER WHERE ssn = %s;", ssn)
+def getManagerID(email):
+    cursor.execute("SELECT mssn FROM MANAGER WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getRUserID(ssn):
-    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", ssn)
+def getRUserID(email):
+    cursor.execute("SELECT rssn FROM RESTRICTED_USER WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getEmployeeID(ssn):
-    cursor.execute("SELECT essn FROM EMPLOYEE WHERE ssn = %s;", ssn)
+def getEmployeeID(email):
+    cursor.execute("SELECT essn FROM EMPLOYEE WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getClientID(ssn):
-    cursor.execute("SELECT cssn FROM CLIENT WHERE ssn = %s;", ssn)
+def getClientID(email):
+    cursor.execute("SELECT cssn FROM CLIENT WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getAdminID(ssn):
-    cursor.execute("SELECT assn FROM ADMIN WHERE ssn = %s;", ssn)
+def getAdminID(email):
+    cursor.execute("SELECT assn FROM ADMIN WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getAssociateID(ssn):
-    cursor.execute("SELECT sssn FROM ASSOCIATE WHERE ssn = %s;", ssn)
+def getAssociateID(email):
+    cursor.execute("SELECT sssn FROM ASSOCIATE WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getTrainerID(ssn):
-    cursor.execute("SELECT tssn FROM TRAINER WHERE ssn = %s;", ssn)
+def getTrainerID(email):
+    cursor.execute("SELECT tssn FROM TRAINER WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getMemberID(ssn):
-    cursor.execute("SELECT mssn FROM MEMBER WHERE ssn = %s;", ssn)
+def getMemberID(email):
+    cursor.execute("SELECT mssn FROM MEMBER WHERE ssn = %s;", email)
     return cursor.fetchall()
-def getOwnerID(ssn):
-    cursor.execute("SELECT ossn FROM OWNER WHERE ssn = %s;", ssn)
+def getOwnerID(email):
+    cursor.execute("SELECT ossn FROM OWNER WHERE ssn = %s;", email)
     return cursor.fetchall()
 
 #https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/

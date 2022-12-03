@@ -24,6 +24,8 @@ class WeeklySchedule:
             
         array.append(times)
         
+        self.schedule = array
+        
         
     def getWeek(self):
         return self.week_no

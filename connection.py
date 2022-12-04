@@ -328,13 +328,17 @@ def getOwnerID(ssn):
 
 #https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
 def getClasses():
-    cursor.execute("SELECT * FROM CLASS;")
+    cursor.execute("SELECT date, time, t_email FROM CLASS;")
     data = cursor.fetchall()
+    
     classArray = []
     for row in data:
+        cursor.execute("SELECT fname FROM TRAINER WHERE t_email = %s;", (row[2],))
+        name = cursor.fetchone()
         new = []
-        for index in row:
-            new.append(index)
+        new.append(row[0])
+        new.append(row[1])
+        new.append(name[0])
             
         classArray.append(new)
     return classArray

@@ -247,6 +247,42 @@ class EmpHomepage(Screen):
         global loggedInEmail
         loggedInEmail = None
 
+######################################## ADMIN ##################################################################
+
+class AdminHomepage(Screen):
+    admin_email = ObjectProperty(None)
+    #tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
+    pass 
+
+    def moveToAdmin(self):
+        if (self.admin_email.text == ""):
+            pop = Popup(title = "Admin Control Panel",
+                    content = Label(text="ERROR: Please fill in email field."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+            return -1
+        elif (self.admin_email.text.find("@") == -1 or self.admin_email.text.find(".") == -1):
+            pop = Popup(title = "Admin Control Panel",
+                    content = Label(text="ERROR: Please use a valid email."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+            return -1
+        else:
+            if (db.createAdmin(self.admin_email.text) != -1):
+                pop = Popup(title = "Admin Control Panel",
+                    content = Label(text="Admin creation was successful"),
+                    size_hint=(None,None), size=(400,200))
+                pop.open()
+            else:
+                pop = Popup(title = "Admin Control Panel",
+                    content = Label(text="ERROR: Something went wrong when moving user to admin"),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+        
+    def logout(self):
+        global loggedInEmail
+        loggedInEmail = None
+
 
 
 Builder.load_file("pagemanager.kv")
@@ -256,6 +292,8 @@ sm.add_widget(LoginForm(name="login"))
 sm.add_widget(RegForm(name="registration"))
 sm.add_widget(ClientHomepage(name="chomepage"))
 sm.add_widget(EmpHomepage(name="ehomepage"))
+sm.add_widget(AdminHomepage(name="ahomepage"))
+
 
 class MainApp(App):
     def build(self):

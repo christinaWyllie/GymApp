@@ -333,12 +333,14 @@ def getClasses():
     
     classArray = []
     for row in data:
-        cursor.execute("SELECT fname FROM TRAINER WHERE t_email = %s;", (row[2],))
+        cursor.execute("SELECT fname, lname FROM TRAINER WHERE t_email = %s;", (row[2],))
         name = cursor.fetchone()
         new = []
         new.append(row[0])
         new.append(row[1])
-        new.append(name[0])
+        new.append(row[2])
+        new.append(name[0] + name[1])
+        
             
         classArray.append(new)
     return classArray

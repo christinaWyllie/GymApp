@@ -55,5 +55,24 @@ INSERT INTO ROOMS
 VALUES (1, "Monday" , "1:00"),
         (1, "Tuesday", "1:00"), 
         (2, "Monday", "1:00");
-        
-SELECT * FROM OWNER
+
+INSERT INTO GYM 
+VALUES (1, "59 Gym Lane", 123366775, 123333335);
+
+DROP TABLE IF EXISTS EQUIPMENT;
+CREATE TABLE EQUIPMENT (
+equipment_no INT NOT NULL,
+cdn VARCHAR(15) NOT NULL,
+branch_no INT NOT NULL,
+PRIMARY KEY(equipment_no),
+FOREIGN KEY(branch_no) REFERENCES GYM(branch_no) );
+
+INSERT INTO EQUIPMENT
+VALUES (1, "Working", 1), 
+        (2, "Broken", 1), 
+        (3, "Working", 1), 
+        (4, "Working", 1), 
+        (5, "Broken", 1), 
+        (6, "Working", 1), 
+        (7, "Working", 1);
+

@@ -55,7 +55,6 @@ def updatePersonAddress(self, ssn, address):
     self.connect.commit()
 
 
-    
 #create a client 
 def createClient(self, ssn, id, email, phone, f, l, address):
     sql = "INSERT INTO CLIENT(cssn, client_id, fname, lname, address, phone_number, client_email)\
@@ -251,9 +250,9 @@ def updateEquipCond(self, condition, equipment_no, branch_no):
     self.cursor.execute(sql, values)
     self.connect.commit()
 
-def createEquip(self, equipment_no, amount, condition, duration, branch_no):
-    sql = "INSERT INTO EQUIPMENT(equipment_no, amount, condition, duration, branch_no) VALUES(%s, %s, %s, %s, %s);"
-    values = (equipment_no, amount, condition, duration, branch_no)
+def createEquip(self, equipment_no, amount, condition,branch_no):
+    sql = "INSERT INTO EQUIPMENT(equipment_no, amount, condition, branch_no) VALUES(%s, %s, %s, %s, %s);"
+    values = (equipment_no, amount, condition, branch_no)
     self.cursor.execute(sql, values)
     self.connect.commit()
 

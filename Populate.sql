@@ -38,7 +38,17 @@ VALUES (466709091, 1, "member1@ucalgary.ca", "member1", "stark", "password", "87
 
 INSERT INTO MEMBER
 VALUES (466709091, 1, 1, "member1@ucalgary.ca", True, "member1", "stark", "87 Member street", "password", 4039925656), 
-        (466707071, 2, 2, "member2@ucalgary.ca", True, "member2", "mcdonald", "91 Member street", "password", 4038855858), 
+        (466707071, 2, 2, "member2@ucalgary.ca", FALSE, "member2", "mcdonald", "91 Member street", "password", 4038855858), 
         (466606061, 3, 3, "member3@ucalgary.ca", True, "member3", "smith", "3 Member street", "password", 4039919911);
-
-SELECT * FROM PERSON
+        
+INSERT INTO CLASS
+VALUES (1, "Monday", "1:00", 1, 3, "i.d@ucalgary.ca", 123456798), 
+        (2, "Tuesday", "10:00", 1, 3, "i.d@ucalgary.ca", 123456798), 
+        (3, "Friday", "8:00", 1, 3, "i.d@ucalgary.ca", 123456798);
+        
+INSERT INTO ROOMS
+VALUES (1, "Monday" , "1:00"),
+        (1, "Tuesday", "1:00"), 
+        (2, "Monday", "1:00");
+        
+SELECT * FROM ROOMS

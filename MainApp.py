@@ -94,7 +94,7 @@ class RegForm(Screen):
 class LoginForm(Screen):
     email = ObjectProperty(None)
     passw = ObjectProperty(None)
-    userType = None
+    userType = "ruser"
     pass
 
     def submit(self):
@@ -103,6 +103,8 @@ class LoginForm(Screen):
         # return 0
 
         # db.createClient("testclient@gmail.com")
+        # db.getInfoFromEmail("i.d@ucalgary.ca")
+        print(db.getClassInfo())
 
         if (self.email.text == "" or self.passw.text == ""):
             self.invalidLogin("empty")
@@ -167,88 +169,6 @@ class FiveFieldLine(BoxLayout):
     pass
 
 
-class ClientHomepage(Screen):
-
-    tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
-
-    # tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
-    #          {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
-    #          {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
-    #          {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
-    #         ]
-
-    # tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
-    #          {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
-    #          {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
-    #          {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
-    #         ]
-
-    def __init__(self, **kwargs):
-        super(ClientHomepage, self).__init__(**kwargs)
-
-        self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
-        # self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
-
-    pass
-
-    def getClasses(self):
-        headers = ["date","time","branchno","email","tname"]
-        result = [dict(zip(headers, data)) for data in self.tempClass]
-        return result
-    
-    def logout(self):
-        global loggedInEmail
-        loggedInEmail = None
-
-
-
-class EmpHomepage(Screen):
-    client_email = ObjectProperty(None)
-    tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
-    pass 
-
-    def __init__(self, **kwargs):
-        super(EmpHomepage, self).__init__(**kwargs)
-        array = self.getClasses()
-        # print(array)
-        self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
-
-    def getClasses(self):
-        headers = ["date","time","branchno","email","tname"]
-        result = [dict(zip(headers, data)) for data in db.getClasses()]
-        return result
-
-    def moveToClient(self):
-        if (self.client_email.text == ""):
-            pop = Popup(title = "Member Control Panel",
-                    content = Label(text="ERROR: Please fill in email field."),
-                    size_hint=(None,None), size=(400,200))
-            pop.open()
-            return -1
-        elif (self.client_email.text.find("@") == -1 or self.client_email.text.find(".") == -1):
-            pop = Popup(title = "Member Control Panel",
-                    content = Label(text="ERROR: Please use a valid email."),
-                    size_hint=(None,None), size=(400,200))
-            pop.open()
-            return -1
-        else:
-            if (db.createClient(self.client_email.text) != -1):
-                pop = Popup(title = "Member Control Panel",
-                    content = Label(text="Client creation was successful"),
-                    size_hint=(None,None), size=(400,200))
-                pop.open()
-            else:
-                pop = Popup(title = "Member Control Panel",
-                    content = Label(text="ERROR: Something went wrong when moving user to client"),
-                    size_hint=(None,None), size=(400,200))
-            pop.open()
-        
-    def logout(self):
-        global loggedInEmail
-        loggedInEmail = None
-
-######################################## ADMIN ##################################################################
-
 class AdminHomepage(Screen):
     admin_email = ObjectProperty(None)
     #tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
@@ -284,6 +204,88 @@ class AdminHomepage(Screen):
         loggedInEmail = None
 
 
+class ClientHomepage(Screen):
+
+    tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
+
+    # tempClass = [{'date': '01/23/2022', 'time': '9:50', 'branchno': '0', 'email': 'test@gmail.com', 'tname':'John Smith'},
+    #          {'date': '01/24/2022', 'time': '12:30', 'branchno': '0', 'email': 'test2@gmail.com', 'tname':'Jalal Kawash'},
+    #          {'date': '01/25/2022', 'time': '9:50', 'branchno': '0', 'email': 'test3@gmail.com', 'tname':'Jane Smith'},
+    #          {'date': '01/26/2022', 'time': '16:00', 'branchno': '0', 'email': 'test4@gmail.com', 'tname':'Kawhi Leonard'}
+    #         ]
+
+    # tempEquip = [{'equipno': '01', 'amount': '30', 'condition': 'Good', 'branchno': '0'},
+    #          {'equipno': '02', 'amount': '25', 'condition': 'Maintenance', 'branchno': '0'},
+    #          {'equipno': '03', 'amount': '122', 'condition': 'Good', 'branchno': '0'},
+    #          {'equipno': '04', 'amount': '33', 'condition': 'Maintenance', 'branchno': '0'}
+    #         ]
+
+    def __init__(self, **kwargs):
+        super(ClientHomepage, self).__init__(**kwargs)
+
+        self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['email']), 'label_4': x['fname'], 'label_5': x['lname']} for x in self.getClasses()]
+        # self.equipment.data = [{'label_1':str(x['equipno']), 'label_2': str(x['amount']), 'label_3': str(x['condition']), 'label_4': x['branchno']} for x in self.tempEquip]
+
+    pass
+
+    def getClasses(self):
+        headers = ["date","time","email","fname", "lname"]
+        result = [dict(zip(headers, data)) for data in db.getClassInfo()]
+        return result
+    
+    def logout(self):
+        global loggedInEmail
+        loggedInEmail = None
+
+
+
+class EmpHomepage(Screen):
+    client_email = ObjectProperty(None)
+    tempClass = [["01/23/2022","9:50","0","test@gmail.com","John Smith"], ["01/24/2022","9:50","0","test2@gmail.com","Jalal Kawash"]]
+    pass 
+
+    def __init__(self, **kwargs):
+        super(EmpHomepage, self).__init__(**kwargs)
+        array = self.getClasses()
+        # print(array)
+        # self.accountInfo.data = 
+        self.classes.data = [{'label_1': str(x['date']), 'label_2': str(x['time']), 'label_3': str(x['branchno']), 'label_4': x['email'], 'label_5': x['tname']} for x in self.getClasses()]
+
+    def getClasses(self):
+        headers = ["date","time","branchno","email","tname"]
+        result = [dict(zip(headers, data)) for data in self.tempClass]
+        return result
+
+    def moveToClient(self):
+        if (self.client_email.text == ""):
+            pop = Popup(title = "Member Control Panel",
+                    content = Label(text="ERROR: Please fill in email field."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+            return -1
+        elif (self.client_email.text.find("@") == -1 or self.client_email.text.find(".") == -1):
+            pop = Popup(title = "Member Control Panel",
+                    content = Label(text="ERROR: Please use a valid email."),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+            return -1
+        else:
+            if (db.createClient(self.client_email.text) != -1):
+                pop = Popup(title = "Member Control Panel",
+                    content = Label(text="Client creation was successful"),
+                    size_hint=(None,None), size=(400,200))
+                pop.open()
+            else:
+                pop = Popup(title = "Member Control Panel",
+                    content = Label(text="ERROR: Something went wrong when moving user to client"),
+                    size_hint=(None,None), size=(400,200))
+            pop.open()
+        
+    def logout(self):
+        global loggedInEmail
+        loggedInEmail = None
+
+
 
 Builder.load_file("pagemanager.kv")
 
@@ -293,7 +295,6 @@ sm.add_widget(RegForm(name="registration"))
 sm.add_widget(ClientHomepage(name="chomepage"))
 sm.add_widget(EmpHomepage(name="ehomepage"))
 sm.add_widget(AdminHomepage(name="ahomepage"))
-
 
 class MainApp(App):
     def build(self):

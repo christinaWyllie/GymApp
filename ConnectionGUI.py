@@ -102,10 +102,14 @@ class Database:
         #         return -1
 
     def checkUserType(self, email):
-        self.cursor.execute("Select * FROM CLIENT WHERE client_email = %s GROUP BY client_email", (email,))
+        self.cursor.execute("Select * FROM OWNER WHERE owner_email = %s GROUP BY owner_email", (email,))
         self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
-            return "client"
+            return "owner"
+        self.cursor.execute("Select * FROM ADMIN WHERE admin_email = %s GROUP BY admin_email", (email,))
+        self.cursor.fetchall()
+        if (self.cursor.rowcount > 0):
+            return "admin"
         self.cursor.execute("Select * FROM RESTRICTED_USER WHERE r_email = %s GROUP BY r_email", (email,))
         self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
@@ -114,36 +118,64 @@ class Database:
         self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
             return "employee"
-        self.cursor.execute("Select * FROM ADMIN WHERE admin_email = %s GROUP BY admin_email", (email,))
+        self.cursor.execute("Select * FROM CLIENT WHERE client_email = %s GROUP BY client_email", (email,))
         self.cursor.fetchall()
         if (self.cursor.rowcount > 0):
-            return "admin"
-        self.cursor.execute("Select * FROM OWNER WHERE owner_email = %s GROUP BY owner_email", (email,))
-        self.cursor.fetchall()
-        if (self.cursor.rowcount > 0):
-            return "owner"
+            return "client"
         return "person"
         
 
-    def getInfoFromEmail(self,email):
-        self.cursor.execute("SELECT fname, lname, email, phone_number, address FROM PERSON WHERE email = %s GROUP BY email", (email,))
-        results = self.cursor.fetchall()
-        if (self.cursor.rowcount > 0):
-            return results
+    # def getInfoFromEmail(self,email):
+    #     self.cursor.execute("SELECT fname, lname, email, phone_number, address FROM PERSON WHERE email = %s GROUP BY email", (email,))
+    #     results = self.cursor.fetchall()
+    #     if (self.cursor.rowcount > 0):
+    #         print(results)
+    #         for info in results[0]:
+
+                
     
     # https://pynative.com/python-cursor-fetchall-fetchmany-fetchone-to-read-rows-from-table/
-    def getClasses(self):
-        self.cursor.execute("SELECT * FROM CLASS;")
+    def getClassInfo(self):
+        self.cursor.execute("SELECT date, time, t_email FROM CLASS;")
         data = self.cursor.fetchall()
         # print(data)
         classArray = []
         for row in data:
+            self.cursor.execute("SELECT fname FROM TRAINER WHERE t_email = %s;", (row[2],))
+            fname = self.cursor.fetchone()
+            self.cursor.execute("SELECT lname FROM TRAINER WHERE t_email = %s;", (row[2],))
+            lname = self.cursor.fetchone()
             new = []
-            for index in row:
-                new.append(index)
+            new.append(row[0])
+            new.append(row[1])
+            new.append(row[2])
+            new.append(fname[0])
+            new.append(lname[0])
                 
             classArray.append(new)
+
         return classArray
+
+    # def getEquipInfo(self):
+    #     self.cursor.execute("SELECT date, time, t_email FROM CLASS;")
+    #     data = self.cursor.fetchall()
+    #     # print(data)
+    #     classArray = []
+    #     for row in data:
+    #         self.cursor.execute("SELECT fname FROM TRAINER WHERE t_email = %s;", (row[2],))
+    #         fname = self.cursor.fetchone()
+    #         self.cursor.execute("SELECT lname FROM TRAINER WHERE t_email = %s;", (row[2],))
+    #         lname = self.cursor.fetchone()
+    #         new = []
+    #         new.append(row[0])
+    #         new.append(row[1])
+    #         new.append(row[2])
+    #         new.append(fname[0])
+    #         new.append(lname[0])
+                
+    #         classArray.append(new)
+
+    #     return classArray
 
 #     #delete an existing person
 #     def deletePerson(ssn):
